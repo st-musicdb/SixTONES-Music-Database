@@ -73,6 +73,8 @@
     margin: 0 0 24px;
     max-width: 46ch;
   }
+  header p.desc a { text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
+  header p.desc a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
   .toolbar {
     display: flex;
@@ -136,29 +138,26 @@
   }
   .title-link:hover { color: var(--accent); }
 
-  .badge {
+  .badge-row { margin-top: 6px; font-size: 12px; color: var(--text-muted); }
+
+  .member-badge {
     display: inline-block;
-    font-size: 11px;
-    font-family: 'JetBrains Mono', monospace;
-    border: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 2px 8px;
     border-radius: 3px;
-    padding: 1px 6px;
-    margin-left: 8px;
-    vertical-align: middle;
     text-decoration: none;
+    margin-right: 4px;
   }
-  .badge:hover { border-color: currentColor; }
 
   .meta { font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-top: 4px; }
-  .meta .tieup { color: var(--accent); }
+  .meta a { color: var(--text-muted); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
+  .meta a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
   .credits { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.8; }
   .credits b { color: var(--text); font-weight: 500; margin-right: 4px; }
   .credits a { color: var(--text-muted); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
   .credits a:hover { color: var(--accent); text-decoration-color: var(--accent); }
-
-  .member-link { text-decoration: none; font-weight: 500; }
-  .member-link:hover { text-decoration: underline; }
 
   .links { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
   .links a {
@@ -171,6 +170,7 @@
     color: var(--text);
   }
   .links a:hover { border-color: var(--accent); color: var(--accent); }
+  .links a.share { border-color: var(--accent); color: var(--accent); }
 
   .empty { padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 14px; }
   .empty .mono { display: block; margin-top: 6px; font-size: 12px; }
@@ -193,11 +193,7 @@
   .yt-item a:hover { color: var(--accent); }
   .yt-tag { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; flex-shrink: 0; }
 
-  .member-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .member-header { display: flex; align-items: center; gap: 12px; }
   .member-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
 
   .role-group { margin-bottom: 22px; }
@@ -221,49 +217,53 @@
 <script>
   let allSongs = [];
   let songById = {};
+  const SITE_TITLE = 'SixTONES Music Database';
 
-  const MEMBER_COLORS = {
-    'ジェシー': '#e2434f',
-    '京本大我': '#ec6fa0',
-    '松村北斗': '#e7e5e1',
-    '髙地優吾': '#f0c14b',
-    '森本慎太郎': '#5fa873',
-    '田中樹': '#4f8fd1'
+  const MEMBER_STYLE = {
+    'ジェシー':   { bg: '#e2434f', text: '#ffffff' },
+    '京本大我':   { bg: '#ec6fa0', text: '#ffffff' },
+    '松村北斗':   { bg: '#ffffff', text: '#000000' },
+    '髙地優吾':   { bg: '#f0c14b', text: '#1b1b1e' },
+    '森本慎太郎': { bg: '#5fa873', text: '#ffffff' },
+    '田中樹':     { bg: '#4f8fd1', text: '#ffffff' }
   };
 
   const ROLE_LABELS = {
-    music: '作曲',
-    lyrics: '作詞',
-    arrangement: '編曲',
-    other: 'その他クレジット',
-    musicianChorus: '演奏・コーラス',
+    music: 'Music',
+    lyrics: 'Lyrics',
+    arrangement: 'Arrangement',
+    other: 'Other',
+    musicianChorus: 'Musician/Chorus',
     mix: 'Mix',
     mastering: 'Mastering',
-    movieDirector: 'MV監督',
-    choreographer: '振付'
+    movieDirector: 'Movie Director',
+    choreographer: 'Choreographer'
   };
+
+  const YT_LIST_TAGS = ['Music Video', 'Performance', 'CD digeST'];
 
   // ---------- helpers ----------
 
   function enc(s) { return encodeURIComponent(s); }
   function dec(s) { return decodeURIComponent(s); }
 
-  function songLink(song) {
-    const key = song.id || song.title;
-    return '#/song/' + enc(key);
-  }
-
+  function songLink(song) { return '#/song/' + enc(song.id || song.title); }
   function songKeyOf(song) { return song.id || song.title; }
 
-  function memberColor(name) { return MEMBER_COLORS[name] || 'var(--text-muted)'; }
-
-  function memberLink(name) {
-    const color = memberColor(name);
-    return '<a class="member-link" style="color:' + color + '" href="#/member/' + enc(name) + '">' + name + '</a>';
+  function memberBadge(name) {
+    const s = MEMBER_STYLE[name] || { bg: '#555', text: '#fff' };
+    return '<a class="member-badge" href="#/member/' + enc(name) + '" style="background:' + s.bg + ';color:' + s.text + '">' + name + '</a>';
   }
 
   function personLink(name) {
     return '<a href="#/person/' + enc(name) + '">' + name + '</a>';
+  }
+
+  function entityLinks(arr, routePrefix) {
+    if (!arr || !arr.length) return null;
+    return arr.map(function (name) {
+      return '<a href="#/' + routePrefix + '/' + enc(name) + '">' + name + '</a>';
+    }).join('・');
   }
 
   function joinLinks(names, linkFn) {
@@ -275,55 +275,55 @@
     return (names && names.length) ? names.join('・') : null;
   }
 
-  function tieupLabel(tieup) {
-    if (!tieup || !tieup.length) return '';
-    const names = tieup.map(function (t) { return t.name; }).filter(Boolean);
-    if (!names.length) return '';
-    return '<span class="tieup">タイアップ: ' + names.join('・') + '</span>';
+  function soloUnitLine(song) {
+    if (song.solo && song.solo.length) return 'Solo：' + song.solo.map(memberBadge).join('');
+    if (song.unit && song.unit.length) return 'Unit：' + song.unit.map(memberBadge).join('');
+    return null;
   }
 
-  function primaryYoutube(song) {
-    if (!song.youtube || !song.youtube.length) return null;
-    const mv = song.youtube.find(function (y) {
-      return y.tag && y.tag.indexOf('Music Video') !== -1;
-    });
-    return (mv || song.youtube[0]).url;
+  function ytTagButtons(song) {
+    if (!song.youtube || !song.youtube.length) return [];
+    return YT_LIST_TAGS.map(function (tag) {
+      const match = song.youtube.find(function (y) { return y.tag && y.tag.indexOf(tag) !== -1; });
+      return match ? '<a href="' + match.url + '" target="_blank" rel="noopener">' + tag + '</a>' : null;
+    }).filter(Boolean);
   }
 
-  // ---------- rendering: list ----------
+  function shareOnXButton(song) {
+    const text = enc(song.title + ' | ' + SITE_TITLE);
+    const url = enc(location.href);
+    return '<a class="share" href="https://twitter.com/intent/tweet?text=' + text + '&url=' + url + '" target="_blank" rel="noopener">Share on X</a>';
+  }
+
+  // ---------- rendering: list entry (shared by list / person / member / disc / tag / live pages) ----------
 
   function renderListEntry(song) {
-    const discLine = joinPlain(song.disc);
-    const metaParts = [song.release, discLine].filter(Boolean).join(' ・ ');
-    const tieup = tieupLabel(song.tieup);
-
-    let badge = '';
-    if (song.solo && song.solo.length) {
-      badge = '<a class="badge" style="color:' + memberColor(song.solo[0]) + '" href="#/member/' + enc(song.solo[0]) + '">Solo</a>';
-    } else if (song.unit && song.unit.length) {
-      badge = '<a class="badge" style="color:' + memberColor(song.unit[0]) + '" href="#/member/' + enc(song.unit[0]) + '">Unit</a>';
-    }
+    const discHtml = entityLinks(song.disc, 'disc');
+    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
+    const badgeLine = soloUnitLine(song);
 
     const creditRows = [];
     const musicLinks = joinLinks(song.music, personLink);
     const lyricsLinks = joinLinks(song.lyrics, personLink);
-    if (musicLinks) creditRows.push('<b>作曲</b>' + musicLinks);
-    if (lyricsLinks) creditRows.push('<b>作詞</b>' + lyricsLinks);
+    if (musicLinks) creditRows.push('<b>' + ROLE_LABELS.music + '</b>' + musicLinks);
+    if (lyricsLinks) creditRows.push('<b>' + ROLE_LABELS.lyrics + '</b>' + lyricsLinks);
 
     const streamLinks = [];
     if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
     if (song.apple) streamLinks.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
-    const yt = primaryYoutube(song);
-    if (yt) streamLinks.push('<a href="' + yt + '" target="_blank" rel="noopener">YouTube</a>');
+    ytTagButtons(song).forEach(function (btn) { streamLinks.push(btn); });
 
     return '' +
       '<div class="entry">' +
-        '<a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' + badge +
-        (metaParts || tieup ? '<div class="meta">' + metaParts + (tieup ? (metaParts ? ' ・ ' : '') + tieup : '') + '</div>' : '') +
+        '<a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' +
+        (badgeLine ? '<div class="badge-row">' + badgeLine + '</div>' : '') +
+        (metaParts ? '<div class="meta">' + metaParts + '</div>' : '') +
         (creditRows.length ? '<div class="credits">' + creditRows.join(' / ') + '</div>' : '') +
         (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
       '</div>';
   }
+
+  // ---------- rendering: list ----------
 
   function renderList(params) {
     const sort = params.get('sort') || 'desc';
@@ -336,7 +336,7 @@
     page.innerHTML = '' +
       '<header>' +
         '<p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>' +
-        '<h1>SixTONES Music Database</h1>' +
+        '<h1>' + SITE_TITLE + '</h1>' +
         '<p class="desc">クレジット・配信リンク・映像をまとめた、ファン有志による楽曲カタログ。曲名や作家名から他の楽曲、メンバーページへたどれます。</p>' +
         '<div class="toolbar">' +
           '<span class="label mono">SEARCH</span>' +
@@ -381,6 +381,73 @@
     });
   }
 
+  // ---------- rendering: simple filtered list (tag / live) ----------
+
+  function renderSimpleList(title, songs) {
+    const page = document.getElementById('page');
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>' + title + '</h1>' +
+        '<p class="desc">' + songs.length + '曲</p>' +
+      '</header>' +
+      '<main>' + (songs.length ? songs.map(renderListEntry).join('') : '<div class="empty">曲が見つかりません</div>') + '</main>';
+  }
+
+  function renderTag(name) {
+    renderSimpleList('Tag: ' + name, allSongs.filter(function (s) { return s.tag && s.tag.indexOf(name) !== -1; }));
+  }
+
+  function renderLive(name) {
+    renderSimpleList(name, allSongs.filter(function (s) { return s.live && s.live.indexOf(name) !== -1; }));
+  }
+
+  // ---------- rendering: disc page (grouped by disc type) ----------
+
+  function renderDisc(name) {
+    const page = document.getElementById('page');
+    const songs = allSongs.filter(function (s) { return s.disc && s.disc.indexOf(name) !== -1; });
+
+    const groups = {};
+    const order = [];
+    const noType = [];
+
+    songs.forEach(function (song) {
+      if (song.discType && song.discType.length) {
+        song.discType.forEach(function (t) {
+          if (!groups[t]) { groups[t] = []; order.push(t); }
+          groups[t].push(song);
+        });
+      } else {
+        noType.push(song);
+      }
+    });
+
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>' + name + '</h1>' +
+        '<p class="desc">' + songs.length + '曲収録</p>' +
+      '</header>' +
+      '<main id="disc-body"></main>';
+
+    const body = document.getElementById('disc-body');
+    if (!songs.length) {
+      body.innerHTML = '<div class="empty">曲が見つかりません</div>';
+      return;
+    }
+
+    let html = order.map(function (type) {
+      return '<div class="role-group"><p class="role-title">' + type + '</p>' + groups[type].map(renderListEntry).join('') + '</div>';
+    }).join('');
+
+    if (noType.length) {
+      html += '<div class="role-group"><p class="role-title">形態未設定</p>' + noType.map(renderListEntry).join('') + '</div>';
+    }
+
+    body.innerHTML = html;
+  }
+
   // ---------- rendering: song detail ----------
 
   function detailRow(label, valueHtml) {
@@ -397,45 +464,39 @@
       return;
     }
 
-    const discLine = joinPlain(song.disc);
-    const discTypeLine = joinPlain(song.discType);
-    const metaParts = [song.release, discLine].filter(Boolean).join(' ・ ');
+    const discHtml = entityLinks(song.disc, 'disc');
+    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
 
     const streamLinks = [];
     if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
     if (song.apple) streamLinks.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
+    streamLinks.push(shareOnXButton(song));
 
     const ytList = (song.youtube || []).map(function (y) {
       return '<div class="yt-item"><a href="' + y.url + '" target="_blank" rel="noopener">' + (y.title || 'YouTube') + '</a>' +
         '<span class="yt-tag">' + (y.tag || []).join('・') + '</span></div>';
     }).join('');
 
-    const soloUnitHtml = (function () {
-      if (song.solo && song.solo.length) return '<b>Solo</b> ' + joinLinks(song.solo, memberLink);
-      if (song.unit && song.unit.length) return '<b>Unit</b> ' + joinLinks(song.unit, memberLink);
-      return null;
-    })();
-
     page.innerHTML = '' +
       '<header>' +
         '<a class="back-link" href="#/">← 一覧に戻る</a>' +
         '<h1>' + song.title + '</h1>' +
-        (metaParts ? '<p class="desc">' + metaParts + (discTypeLine ? ' ・ ' + discTypeLine : '') + '</p>' : '') +
-        (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
+        (metaParts ? '<p class="desc">' + metaParts + '</p>' : '') +
+        '<div class="links">' + streamLinks.join('') + '</div>' +
       '</header>' +
       '<main>' +
-        detailRow('タイアップ', tieupLabel(song.tieup).replace('タイアップ: ', '') || null) +
-        detailRow('作曲', joinLinks(song.music, personLink)) +
-        detailRow('作詞', joinLinks(song.lyrics, personLink)) +
-        detailRow('編曲', joinLinks(song.arrangement, personLink)) +
-        detailRow('その他クレジット', joinLinks(song.other, personLink)) +
-        detailRow('演奏・コーラス', joinLinks(song.musicianChorus, personLink)) +
-        detailRow('Mix', joinLinks(song.mix, personLink)) +
-        detailRow('Mastering', joinLinks(song.mastering, personLink)) +
-        detailRow('MV監督', joinLinks(song.movieDirector, personLink)) +
-        detailRow('振付', joinLinks(song.choreographer, personLink)) +
-        detailRow('Solo / Unit', soloUnitHtml) +
-        detailRow('タグ', joinPlain(song.tag)) +
+        detailRow(ROLE_LABELS.music, joinLinks(song.music, personLink)) +
+        detailRow(ROLE_LABELS.lyrics, joinLinks(song.lyrics, personLink)) +
+        detailRow(ROLE_LABELS.arrangement, joinLinks(song.arrangement, personLink)) +
+        detailRow(ROLE_LABELS.other, joinLinks(song.other, personLink)) +
+        detailRow(ROLE_LABELS.musicianChorus, joinLinks(song.musicianChorus, personLink)) +
+        detailRow(ROLE_LABELS.mix, joinLinks(song.mix, personLink)) +
+        detailRow(ROLE_LABELS.mastering, joinLinks(song.mastering, personLink)) +
+        detailRow(ROLE_LABELS.movieDirector, joinLinks(song.movieDirector, personLink)) +
+        detailRow(ROLE_LABELS.choreographer, joinLinks(song.choreographer, personLink)) +
+        detailRow('Solo / Unit', soloUnitLine(song)) +
+        detailRow('Tag', entityLinks(song.tag, 'tag')) +
+        detailRow('Live', entityLinks(song.live, 'live')) +
         (ytList ? '<div class="detail-section"><p class="detail-label">YouTube (' + song.youtube.length + ')</p>' + ytList + '</div>' : '') +
       '</main>';
   }
@@ -484,7 +545,7 @@
 
   function renderMember(name) {
     const page = document.getElementById('page');
-    const color = memberColor(name);
+    const style = MEMBER_STYLE[name] || { bg: '#555', text: '#fff' };
 
     const soloSongs = allSongs.filter(function (s) { return s.solo && s.solo.indexOf(name) !== -1; });
     const unitSongs = allSongs.filter(function (s) { return s.unit && s.unit.indexOf(name) !== -1; });
@@ -492,7 +553,7 @@
     page.innerHTML = '' +
       '<header>' +
         '<a class="back-link" href="#/">← 一覧に戻る</a>' +
-        '<div class="member-header"><span class="member-dot" style="background:' + color + '"></span><h1 style="margin:0">' + name + '</h1></div>' +
+        '<div class="member-header"><span class="member-dot" style="background:' + style.bg + '"></span><h1 style="margin:0">' + name + '</h1></div>' +
         '<p class="desc">Solo ' + soloSongs.length + '曲 ・ Unit ' + unitSongs.length + '曲</p>' +
       '</header>' +
       '<main>' +
@@ -506,18 +567,21 @@
 
   function parseHash() {
     const raw = location.hash.replace(/^#/, '') || '/';
-    const [path, queryStr] = raw.split('?');
-    return { path: path, params: new URLSearchParams(queryStr || '') };
+    const parts2 = raw.split('?');
+    return { path: parts2[0], params: new URLSearchParams(parts2[1] || '') };
   }
 
   function route() {
-    const { path, params } = parseHash();
-    const parts = path.split('/').filter(Boolean);
+    const parsed = parseHash();
+    const parts = parsed.path.split('/').filter(Boolean);
 
     if (parts[0] === 'song' && parts[1]) { renderSongDetail(dec(parts[1])); return; }
     if (parts[0] === 'person' && parts[1]) { renderPerson(dec(parts[1])); return; }
     if (parts[0] === 'member' && parts[1]) { renderMember(dec(parts[1])); return; }
-    renderList(params);
+    if (parts[0] === 'disc' && parts[1]) { renderDisc(dec(parts[1])); return; }
+    if (parts[0] === 'tag' && parts[1]) { renderTag(dec(parts[1])); return; }
+    if (parts[0] === 'live' && parts[1]) { renderLive(dec(parts[1])); return; }
+    renderList(parsed.params);
   }
 
   fetch('songs.json')
