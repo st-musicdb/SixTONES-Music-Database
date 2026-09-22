@@ -219,6 +219,20 @@
 
   .role-group { margin-bottom: 22px; }
   .role-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--slate); margin: 0 0 8px; }
+  .live-note { font-size: 12px; color: var(--text-muted); margin: 0 0 4px; }
+
+  .notice-link {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--slate);
+    text-decoration: none;
+    margin: 0 0 24px;
+  }
+  .notice-link:hover { color: var(--accent); }
+
+  .notice-list { margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 14px; line-height: 2; }
+  .notice-list li { margin-bottom: 4px; }
 
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -396,7 +410,8 @@
       '<header>' +
         '<p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>' +
         '<h1>' + SITE_TITLE + '</h1>' +
-        '<p class="desc">クレジット・配信リンク・映像をまとめた、ファン有志による楽曲カタログ。曲名や作家名から他の楽曲、メンバーページへたどれます。</p>' +
+        '<p class="desc">SixTONES楽曲に携わる作家・演奏家・MV監督・コレオグラファー・公式YouTube等の情報を集約したファンサイト</p>' +
+        '<a class="notice-link" href="#/notice">⚠️ 注意事項</a>' +
         '<div class="tabs">' + TABS.map(function (t) {
           return '<button class="tab-btn' + (t.id === tab ? ' active' : '') + '" data-tab="' + t.id + '">' + t.label + '</button>';
         }).join('') + '</div>' +
@@ -491,7 +506,7 @@
     const musiciansHtml = live && live.musicians && live.musicians.length ? live.musicians.join('・') : null;
     const noteHtml = live && live.note ? live.note : null;
     const bodyHtml = live && live.bodyText
-      ? '<div class="detail-section"><p class="detail-label">Notion</p><div class="detail-value" style="white-space:pre-line">' + live.bodyText + '</div></div>'
+      ? '<div class="detail-section"><div class="detail-value" style="white-space:pre-line">' + live.bodyText + '</div></div>'
       : '';
     const ytList = live && live.youtube && live.youtube.length
       ? live.youtube.map(function (y) {
@@ -513,7 +528,9 @@
         bodyHtml +
         (ytList ? '<div class="detail-section"><p class="detail-label">YouTube</p>' + ytList + '</div>' : '') +
         '<div class="role-group">' +
-          '<p class="role-title">収録曲（No.順・実際のセットリスト順ではありません）</p>' +
+          '<p class="role-title">披露楽曲</p>' +
+          '<p class="live-note">※実際のセトリ順ではありません。</p>' +
+          '<p class="live-note">※Blu-ray / DVDの収録内容は公式ホームページを確認してください。</p>' +
           (songs.length ? songs.map(function (s) { return renderListEntry(s); }).join('') : '<div class="empty">曲が見つかりません</div>') +
         '</div>' +
       '</main>';
@@ -630,42 +647,13 @@
   // ---------- rendering: person (staff credit) page ----------
 
   function renderPerson(name) {
-    const page = document.getElementById('page');
     const roleKeys = Object.keys(ROLE_LABELS);
-    const grouped = {};
-
-    allSongs.forEach(function (song) {
-      roleKeys.forEach(function (role) {
-        if (song[role] && song[role].indexOf(name) !== -1) {
-          grouped[role] = grouped[role] || [];
-          grouped[role].push(song);
-        }
+    const songs = allSongs.filter(function (song) {
+      return roleKeys.some(function (role) {
+        return song[role] && song[role].indexOf(name) !== -1;
       });
     });
-
-    const totalCount = Object.keys(grouped).reduce(function (n, r) { return n + grouped[r].length; }, 0);
-
-    page.innerHTML = '' +
-      '<header>' +
-        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
-        '<h1>' + name + '</h1>' +
-        '<p class="desc">' + totalCount + '件のクレジット</p>' +
-        '<div class="links">' + shareButton(name) + '</div>' +
-      '</header>' +
-      '<main id="person-body"></main>';
-
-    const body = document.getElementById('person-body');
-    if (!totalCount) {
-      body.innerHTML = '<div class="empty">クレジットが見つかりません</div>';
-      return;
-    }
-
-    body.innerHTML = roleKeys.filter(function (r) { return grouped[r]; }).map(function (role) {
-      return '<div class="role-group">' +
-        '<p class="role-title">' + ROLE_LABELS[role] + '</p>' +
-        grouped[role].map(renderListEntry).join('') +
-      '</div>';
-    }).join('');
+    renderSimpleList(name, songs);
   }
 
   // ---------- rendering: member page ----------
@@ -691,6 +679,33 @@
       '</main>';
   }
 
+  // ---------- rendering: notice page ----------
+
+  const NOTICE_ITEMS = [
+    'ファン個人による運営です。',
+    '情報の正確性には注意を払っていますが、完全ではありません。',
+    'SixTONES自身はもちろん、関連企業とも関係ありません。',
+    '当データベースの掲載内容によって不利益や損害等が生じた場合も一切の責任を負いかねます。',
+    'SixTONESのCDクレジットは基本的に英表記のため、一部日本語表記に変更しています。'
+  ];
+
+  function renderNotice() {
+    const page = document.getElementById('page');
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>⚠️ 注意</h1>' +
+      '</header>' +
+      '<main>' +
+        '<div class="detail-section">' +
+          '<ul class="notice-list">' + NOTICE_ITEMS.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
+        '</div>' +
+        '<div class="detail-section">' +
+          '<p class="detail-value">SixTONES：6人組男性アイドルグループ。2015年5月1日結成、2020年1月22日｢<a href="#/disc/' + enc('Imitation Rain') + '">Imitation Rain</a>｣でデビュー。メンバーはジェシー・京本大我・松村北斗・髙地優吾・森本慎太郎・田中樹。</p>' +
+        '</div>' +
+      '</main>';
+  }
+
   // ---------- router ----------
 
   function parseHash() {
@@ -709,6 +724,7 @@
     if (parts[0] === 'disc' && parts[1]) { renderDisc(dec(parts[1])); return; }
     if (parts[0] === 'tag' && parts[1]) { renderTag(dec(parts[1])); return; }
     if (parts[0] === 'live' && parts[1]) { renderLive(dec(parts[1])); return; }
+    if (parts[0] === 'notice') { renderNotice(); return; }
     renderList(parsed.params);
   }
 
