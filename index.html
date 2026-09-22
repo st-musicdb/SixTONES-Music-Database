@@ -189,10 +189,10 @@
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     text-decoration: none;
-    border: 1px solid var(--border);
+    border-width: 1px;
+    border-style: solid;
     border-radius: 3px;
     padding: 3px 8px;
-    color: var(--text);
   }
   .links a:hover, .stream-links a:hover { opacity: 0.75; }
   .share { border-color: var(--accent); color: var(--accent); }
@@ -224,9 +224,32 @@
   .member-header { display: flex; align-items: center; gap: 12px; }
   .member-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
 
-  .role-group { margin-bottom: 22px; }
+  .role-group { margin-top: 22px; margin-bottom: 22px; }
   .role-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--slate); margin: 0 0 8px; }
   .live-note { font-size: 12px; color: var(--text-muted); margin: 0 0 4px; }
+
+  .index-list { list-style: none; margin: 0; padding: 0; }
+  .index-list li { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .index-list a { text-decoration: none; font-weight: 700; }
+  .index-list a:hover { color: var(--accent); }
+  .index-count { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); }
+
+  .site-nav { display: flex; flex-wrap: wrap; gap: 10px 16px; padding-top: 18px; }
+  .site-nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .site-nav a:hover { color: var(--accent); }
+
+  .site-footer { padding: 32px 20px 60px; border-top: 1px solid var(--border); margin-top: 40px; }
+  .footer-group { margin-bottom: 18px; }
+  .footer-group:last-child { margin-bottom: 0; }
+  .footer-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--slate); margin: 0 0 8px; }
+  .footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
+  .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--accent); }
 
   .notice-link {
     display: inline-block;
@@ -256,9 +279,30 @@
 <body>
   <div id="page" class="wrap"></div>
 
+  <footer class="wrap site-footer">
+    <div class="footer-group">
+      <p class="footer-label">SixTONES楽曲データベース SNS</p>
+      <div class="footer-links">
+        <a href="https://x.com/sixtonesmusicdb?s=21" target="_blank" rel="noopener">X (Twitter)</a>
+        <a href="https://bsky.app/profile/sixtonesmusicdb.bsky.social" target="_blank" rel="noopener">Bluesky</a>
+      </div>
+    </div>
+    <div class="footer-group">
+      <p class="footer-label">SixTONES Official</p>
+      <div class="footer-links">
+        <a href="https://www.sixtones.jp/" target="_blank" rel="noopener">Official Site</a>
+        <a href="https://x.com/SixTONES_SME" target="_blank" rel="noopener">X (Twitter)</a>
+        <a href="https://www.youtube.com/@SixTONES_official" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.instagram.com/sixtones_official/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@sixtones_sme" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+  </footer>
+
 <script>
   let allSongs = [];
   let songById = {};
+  let allLives = [];
   let liveByName = {};
   const SITE_TITLE = 'SixTONES楽曲データベース';
 
@@ -293,6 +337,14 @@
     { id: 'no-streaming', label: 'ストリーミング未配信' },
     { id: 'all', label: 'All' }
   ];
+
+  const CREDIT_GROUPS = {
+    'song-writer':     { title: 'Music / Lyrics / Arrangement', roles: ['music', 'lyrics', 'arrangement'] },
+    'movie-director':  { title: 'Movie Director', roles: ['movieDirector'] },
+    'choreographer':   { title: 'Choreographer', roles: ['choreographer'] },
+    'mix-mastering':   { title: 'Mix / Mastering', roles: ['mix', 'mastering'] },
+    'musician-chorus': { title: 'Musician/Chorus', roles: ['musicianChorus'] }
+  };
 
   function isOriginalTag(tag) {
     return tag.indexOf('Rearrange') === -1 && tag.indexOf('Other') === -1 && tag.indexOf('Cover') === -1;
@@ -427,6 +479,16 @@
           '<a class="notice-link" href="#/notice">⚠️ 注意事項</a>' +
           shareButton(SITE_TITLE) +
         '</div>' +
+        '<nav class="site-nav">' +
+          '<a href="#/discs">Disc一覧</a>' +
+          '<a href="#/lives">Live一覧</a>' +
+          '<a href="#/members">Singer (Unit/Solo)</a>' +
+          '<a href="#/credits/song-writer">Music / Lyrics / Arrangement</a>' +
+          '<a href="#/credits/movie-director">Movie Director</a>' +
+          '<a href="#/credits/choreographer">Choreographer</a>' +
+          '<a href="#/credits/mix-mastering">Mix / Mastering</a>' +
+          '<a href="#/credits/musician-chorus">Musician/Chorus</a>' +
+        '</nav>' +
         '<div class="tabs">' + TABS.map(function (t) {
           return '<button class="tab-btn' + (t.id === tab ? ' active' : '') + '" data-tab="' + t.id + '">' + t.label + '</button>';
         }).join('') + '</div>' +
@@ -718,6 +780,85 @@
       '</main>';
   }
 
+  // ---------- rendering: index pages (Disc / Live / Member / credit roles) ----------
+
+  function renderIndexPage(title, list, routePrefix) {
+    const page = document.getElementById('page');
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>' + title + '</h1>' +
+        '<p class="desc">' + list.length + '件</p>' +
+      '</header>' +
+      '<main>' + (list.length
+        ? '<ul class="index-list">' + list.map(function (item) {
+            return '<li><a href="#/' + routePrefix + '/' + enc(item.name) + '">' + item.name + '</a>' +
+              (item.count != null ? '<span class="index-count">' + item.count + '曲</span>' : '') + '</li>';
+          }).join('') + '</ul>'
+        : '<div class="empty">見つかりません</div>') +
+      '</main>';
+  }
+
+  function buildPersonCounts(roleFields) {
+    const counts = {};
+    allSongs.forEach(function (song) {
+      const names = new Set();
+      roleFields.forEach(function (field) {
+        (song[field] || []).forEach(function (n) { names.add(n); });
+      });
+      names.forEach(function (n) { counts[n] = (counts[n] || 0) + 1; });
+    });
+    return Object.keys(counts)
+      .map(function (name) { return { name: name, count: counts[name] }; })
+      .sort(function (a, b) { return b.count - a.count; });
+  }
+
+  function renderCreditIndex(title, roleFields) {
+    renderIndexPage(title, buildPersonCounts(roleFields), 'person');
+  }
+
+  function renderDiscsIndex() {
+    const info = {};
+    allSongs.forEach(function (song) {
+      (song.disc || []).forEach(function (name) {
+        if (!info[name]) info[name] = { count: 0, maxNo: 0 };
+        info[name].count += 1;
+        info[name].maxNo = Math.max(info[name].maxNo, song.no || 0);
+      });
+    });
+    const list = Object.keys(info)
+      .map(function (name) { return { name: name, count: info[name].count, maxNo: info[name].maxNo }; })
+      .sort(function (a, b) { return b.maxNo - a.maxNo; });
+    renderIndexPage('Disc', list, 'disc');
+  }
+
+  function renderLivesIndex() {
+    let list;
+    if (allLives.length) {
+      list = allLives.slice()
+        .sort(function (a, b) { return (b.periodStart || '').localeCompare(a.periodStart || ''); })
+        .map(function (l) { return { name: l.name, count: null }; });
+    } else {
+      const names = {};
+      allSongs.forEach(function (s) { (s.live || []).forEach(function (n) { names[n] = true; }); });
+      list = Object.keys(names).sort().map(function (n) { return { name: n, count: null }; });
+    }
+    renderIndexPage('Live', list, 'live');
+  }
+
+  function renderMembersIndex() {
+    const order = ['ジェシー', '京本大我', '松村北斗', '髙地優吾', '森本慎太郎', '田中樹'];
+    const page = document.getElementById('page');
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>Singer (Unit/Solo)</h1>' +
+      '</header>' +
+      '<main><div class="badge-row" style="font-size:15px; line-height:2.6;">' +
+        order.map(memberBadge).join(' ') +
+      '</div></main>';
+  }
+
   // ---------- router ----------
 
   function parseHash() {
@@ -737,6 +878,14 @@
     if (parts[0] === 'tag' && parts[1]) { renderTag(dec(parts[1])); return; }
     if (parts[0] === 'live' && parts[1]) { renderLive(dec(parts[1])); return; }
     if (parts[0] === 'notice') { renderNotice(); return; }
+    if (parts[0] === 'discs') { renderDiscsIndex(); return; }
+    if (parts[0] === 'lives') { renderLivesIndex(); return; }
+    if (parts[0] === 'members') { renderMembersIndex(); return; }
+    if (parts[0] === 'credits' && parts[1] && CREDIT_GROUPS[parts[1]]) {
+      const g = CREDIT_GROUPS[parts[1]];
+      renderCreditIndex(g.title, g.roles);
+      return;
+    }
     renderList(parsed.params);
   }
 
@@ -750,6 +899,7 @@
       return fetch('lives.json').then(function (res) { return res.json(); }).catch(function () { return []; });
     })
     .then(function (lives) {
+      allLives = lives;
       liveByName = {};
       lives.forEach(function (l) { liveByName[l.name] = l; });
 
