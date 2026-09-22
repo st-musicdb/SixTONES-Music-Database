@@ -33,14 +33,12 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  a { color: inherit; }
   .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 
-  header {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 56px 20px 28px;
-    border-bottom: 1px solid var(--border);
-  }
+  .wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+  header { padding: 56px 0 20px; border-bottom: 1px solid var(--border); }
 
   .kicker {
     font-family: 'JetBrains Mono', monospace;
@@ -50,15 +48,25 @@
     margin: 0 0 10px;
   }
 
+  .back-link {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--slate);
+    text-decoration: none;
+    margin-bottom: 18px;
+  }
+  .back-link:hover { color: var(--accent); }
+
   h1 {
     font-weight: 900;
-    font-size: clamp(28px, 5vw, 38px);
-    line-height: 1.15;
+    font-size: clamp(26px, 5vw, 36px);
+    line-height: 1.2;
     margin: 0 0 12px;
     letter-spacing: -0.01em;
   }
 
-  header p {
+  header p.desc {
     color: var(--text-muted);
     font-size: 14.5px;
     line-height: 1.7;
@@ -66,19 +74,15 @@
     max-width: 46ch;
   }
 
-  .search-row {
+  .toolbar {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 14px;
     border-bottom: 1px solid var(--border);
     padding-bottom: 10px;
   }
 
-  .search-row .mono {
-    color: var(--text-muted);
-    font-size: 13px;
-    flex-shrink: 0;
-  }
+  .toolbar .label { color: var(--text-muted); font-size: 13px; flex-shrink: 0; }
 
   #search {
     flex: 1;
@@ -89,108 +93,115 @@
     font-family: inherit;
     font-size: 16px;
     padding: 4px 0;
+    min-width: 0;
   }
-
   #search::placeholder { color: #5c5952; }
 
+  .sort-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .sort-btn:hover { border-color: var(--accent); color: var(--accent); }
+
   .count {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 14px 20px 0;
+    padding: 14px 0 0;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     color: var(--text-muted);
   }
 
-  main {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 4px 20px 80px;
-  }
+  main { padding: 4px 0 80px; }
 
   .entry {
-    display: grid;
-    grid-template-columns: 68px 1fr;
-    gap: 16px;
+    display: block;
     padding: 18px 0;
     border-bottom: 1px solid var(--border);
     transition: background-color 0.15s ease;
   }
-
   .entry:hover { background-color: var(--surface-hover); }
 
-  .no {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-    padding-top: 3px;
-  }
-
-  .no::before { content: "No."; color: var(--text-muted); margin-right: 2px; }
-
-  .title-row {
+  .title-link {
     font-weight: 700;
     font-size: 17px;
     line-height: 1.4;
-    margin-bottom: 6px;
+    text-decoration: none;
+    color: var(--text);
   }
+  .title-link:hover { color: var(--accent); }
 
   .badge {
     display: inline-block;
     font-size: 11px;
     font-family: 'JetBrains Mono', monospace;
-    color: var(--slate);
     border: 1px solid var(--border);
     border-radius: 3px;
     padding: 1px 6px;
     margin-left: 8px;
     vertical-align: middle;
+    text-decoration: none;
   }
+  .badge:hover { border-color: currentColor; }
 
-  .meta {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.8;
-  }
-
+  .meta { font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-top: 4px; }
   .meta .tieup { color: var(--accent); }
 
-  .credits {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 4px;
-    line-height: 1.8;
-  }
+  .credits { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.8; }
+  .credits b { color: var(--text); font-weight: 500; margin-right: 4px; }
+  .credits a { color: var(--text-muted); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
+  .credits a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
-  .credits b { color: var(--text); font-weight: 500; }
+  .member-link { text-decoration: none; font-weight: 500; }
+  .member-link:hover { text-decoration: underline; }
 
-  .links {
-    margin-top: 10px;
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
+  .links { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
   .links a {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    color: var(--text);
     text-decoration: none;
     border: 1px solid var(--border);
     border-radius: 3px;
     padding: 3px 8px;
+    color: var(--text);
   }
-
   .links a:hover { border-color: var(--accent); color: var(--accent); }
 
-  .empty {
-    padding: 60px 0;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 14px;
-  }
-
+  .empty { padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 14px; }
   .empty .mono { display: block; margin-top: 6px; font-size: 12px; }
+
+  /* --- detail views --- */
+  .detail-section { padding: 18px 0; border-bottom: 1px solid var(--border); }
+  .detail-section:last-child { border-bottom: none; }
+  .detail-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--slate);
+    margin: 0 0 8px;
+  }
+  .detail-value { font-size: 14.5px; line-height: 1.8; }
+  .detail-value a { text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
+  .detail-value a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+  .yt-item { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; font-size: 13.5px; }
+  .yt-item a { text-decoration: none; color: var(--text); flex: 1; }
+  .yt-item a:hover { color: var(--accent); }
+  .yt-tag { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; flex-shrink: 0; }
+
+  .member-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .member-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+  .role-group { margin-bottom: 22px; }
+  .role-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--slate); margin: 0 0 8px; }
 
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -205,124 +216,322 @@
 </style>
 </head>
 <body>
-
-<header>
-  <p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>
-  <h1>SixTONES Music Database</h1>
-  <p>クレジット・配信リンク・映像をまとめた、ファン有志による楽曲カタログ。曲名や参加スタッフの名前で検索できます。</p>
-  <div class="search-row">
-    <span class="mono">SEARCH</span>
-    <input type="text" id="search" placeholder="曲名・作家名で検索…" autocomplete="off">
-  </div>
-</header>
-
-<p class="count" id="count">読み込み中…</p>
-
-<main id="list"></main>
+  <div id="page" class="wrap"></div>
 
 <script>
   let allSongs = [];
+  let songById = {};
 
-  function joinNames(arr) {
-    return (arr && arr.length) ? arr.join('・') : null;
+  const MEMBER_COLORS = {
+    'ジェシー': '#e2434f',
+    '京本大我': '#ec6fa0',
+    '松村北斗': '#e7e5e1',
+    '髙地優吾': '#f0c14b',
+    '森本慎太郎': '#5fa873',
+    '田中樹': '#4f8fd1'
+  };
+
+  const ROLE_LABELS = {
+    music: '作曲',
+    lyrics: '作詞',
+    arrangement: '編曲',
+    other: 'その他クレジット',
+    musicianChorus: '演奏・コーラス',
+    mix: 'Mix',
+    mastering: 'Mastering',
+    movieDirector: 'MV監督',
+    choreographer: '振付'
+  };
+
+  // ---------- helpers ----------
+
+  function enc(s) { return encodeURIComponent(s); }
+  function dec(s) { return decodeURIComponent(s); }
+
+  function songLink(song) {
+    const key = song.id || song.title;
+    return '#/song/' + enc(key);
   }
 
-  function renderTieup(tieup) {
+  function songKeyOf(song) { return song.id || song.title; }
+
+  function memberColor(name) { return MEMBER_COLORS[name] || 'var(--text-muted)'; }
+
+  function memberLink(name) {
+    const color = memberColor(name);
+    return '<a class="member-link" style="color:' + color + '" href="#/member/' + enc(name) + '">' + name + '</a>';
+  }
+
+  function personLink(name) {
+    return '<a href="#/person/' + enc(name) + '">' + name + '</a>';
+  }
+
+  function joinLinks(names, linkFn) {
+    if (!names || !names.length) return null;
+    return names.map(linkFn).join('・');
+  }
+
+  function joinPlain(names) {
+    return (names && names.length) ? names.join('・') : null;
+  }
+
+  function tieupLabel(tieup) {
     if (!tieup || !tieup.length) return '';
-    const t = tieup[0];
-    const label = [t.category, t.name].filter(Boolean).join(' ');
-    return '<div class="tieup">' + label + '</div>';
+    const names = tieup.map(function (t) { return t.name; }).filter(Boolean);
+    if (!names.length) return '';
+    return '<span class="tieup">タイアップ: ' + names.join('・') + '</span>';
   }
 
-  function renderBadge(song) {
+  function primaryYoutube(song) {
+    if (!song.youtube || !song.youtube.length) return null;
+    const mv = song.youtube.find(function (y) {
+      return y.tag && y.tag.indexOf('Music Video') !== -1;
+    });
+    return (mv || song.youtube[0]).url;
+  }
+
+  // ---------- rendering: list ----------
+
+  function renderListEntry(song) {
+    const discLine = joinPlain(song.disc);
+    const metaParts = [song.release, discLine].filter(Boolean).join(' ・ ');
+    const tieup = tieupLabel(song.tieup);
+
+    let badge = '';
     if (song.solo && song.solo.length) {
-      return '<span class="badge">Solo: ' + joinNames(song.solo) + '</span>';
+      badge = '<a class="badge" style="color:' + memberColor(song.solo[0]) + '" href="#/member/' + enc(song.solo[0]) + '">Solo</a>';
+    } else if (song.unit && song.unit.length) {
+      badge = '<a class="badge" style="color:' + memberColor(song.unit[0]) + '" href="#/member/' + enc(song.unit[0]) + '">Unit</a>';
     }
-    if (song.unit && song.unit.length) {
-      return '<span class="badge">Unit: ' + joinNames(song.unit) + '</span>';
-    }
-    return '';
-  }
 
-  function renderCredits(song) {
-    const rows = [];
-    const music = joinNames(song.music);
-    const lyrics = joinNames(song.lyrics);
-    if (music) rows.push('<b>作曲</b> ' + music);
-    if (lyrics) rows.push('<b>作詞</b> ' + lyrics);
-    return rows.length ? '<div class="credits">' + rows.join(' / ') + '</div>' : '';
-  }
+    const creditRows = [];
+    const musicLinks = joinLinks(song.music, personLink);
+    const lyricsLinks = joinLinks(song.lyrics, personLink);
+    if (musicLinks) creditRows.push('<b>作曲</b>' + musicLinks);
+    if (lyricsLinks) creditRows.push('<b>作詞</b>' + lyricsLinks);
 
-  function renderLinks(song) {
-    const links = [];
-    if (song.spotify) links.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
-    if (song.apple) links.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
-    if (song.youtube && song.youtube.length) links.push('<a href="' + song.youtube[0].url + '" target="_blank" rel="noopener">YouTube</a>');
-    return links.length ? '<div class="links">' + links.join('') + '</div>' : '';
-  }
+    const streamLinks = [];
+    if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
+    if (song.apple) streamLinks.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
+    const yt = primaryYoutube(song);
+    if (yt) streamLinks.push('<a href="' + yt + '" target="_blank" rel="noopener">YouTube</a>');
 
-  function renderSong(song) {
-    const disc = song.disc && song.disc.length ? song.disc[0] : null;
-    const metaLine = [song.release, disc].filter(Boolean).join(' ・ ');
     return '' +
       '<div class="entry">' +
-        '<div class="no mono">' + String(song.no != null ? song.no : '').padStart(3, '0') + '</div>' +
-        '<div>' +
-          '<div class="title-row">' + song.title + renderBadge(song) + '</div>' +
-          '<div class="meta">' + metaLine + renderTieup(song.tieup) + '</div>' +
-          renderCredits(song) +
-          renderLinks(song) +
-        '</div>' +
+        '<a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' + badge +
+        (metaParts || tieup ? '<div class="meta">' + metaParts + (tieup ? (metaParts ? ' ・ ' : '') + tieup : '') + '</div>' : '') +
+        (creditRows.length ? '<div class="credits">' + creditRows.join(' / ') + '</div>' : '') +
+        (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
       '</div>';
   }
 
-  function render(songs) {
-    const list = document.getElementById('list');
-    const count = document.getElementById('count');
+  function renderList(params) {
+    const sort = params.get('sort') || 'desc';
+    const sorted = allSongs.slice().sort(function (a, b) {
+      const diff = (a.no || 0) - (b.no || 0);
+      return sort === 'asc' ? diff : -diff;
+    });
 
-    if (!songs.length) {
-      list.innerHTML = '<div class="empty">該当する曲が見つかりません<span class="mono">別のキーワードで試してみてください</span></div>';
-      count.textContent = '';
+    const page = document.getElementById('page');
+    page.innerHTML = '' +
+      '<header>' +
+        '<p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>' +
+        '<h1>SixTONES Music Database</h1>' +
+        '<p class="desc">クレジット・配信リンク・映像をまとめた、ファン有志による楽曲カタログ。曲名や作家名から他の楽曲、メンバーページへたどれます。</p>' +
+        '<div class="toolbar">' +
+          '<span class="label mono">SEARCH</span>' +
+          '<input type="text" id="search" placeholder="曲名・作家名で検索…" autocomplete="off">' +
+          '<button class="sort-btn" id="sort-toggle">' + (sort === 'asc' ? '古い順' : '新しい順') + ' ▾</button>' +
+        '</div>' +
+      '</header>' +
+      '<p class="count" id="count"></p>' +
+      '<main id="list"></main>';
+
+    document.getElementById('sort-toggle').addEventListener('click', function () {
+      location.hash = '/?sort=' + (sort === 'asc' ? 'desc' : 'asc');
+    });
+
+    function draw(songs) {
+      const list = document.getElementById('list');
+      const count = document.getElementById('count');
+      if (!songs.length) {
+        list.innerHTML = '<div class="empty">該当する曲が見つかりません<span class="mono">別のキーワードで試してみてください</span></div>';
+        count.textContent = '';
+        return;
+      }
+      count.textContent = songs.length + '曲';
+      list.innerHTML = songs.map(renderListEntry).join('');
+    }
+
+    draw(sorted);
+
+    document.getElementById('search').addEventListener('input', function (e) {
+      const q = e.target.value.trim().toLowerCase();
+      if (!q) { draw(sorted); return; }
+      draw(sorted.filter(function (song) {
+        const hay = [
+          song.title,
+          joinPlain(song.music),
+          joinPlain(song.lyrics),
+          joinPlain(song.arrangement),
+          joinPlain(song.disc)
+        ].filter(Boolean).join(' ').toLowerCase();
+        return hay.indexOf(q) !== -1;
+      }));
+    });
+  }
+
+  // ---------- rendering: song detail ----------
+
+  function detailRow(label, valueHtml) {
+    if (!valueHtml) return '';
+    return '<div class="detail-section"><p class="detail-label">' + label + '</p><div class="detail-value">' + valueHtml + '</div></div>';
+  }
+
+  function renderSongDetail(key) {
+    const song = songById[key] || allSongs.find(function (s) { return s.title === key; });
+    const page = document.getElementById('page');
+
+    if (!song) {
+      page.innerHTML = '<header><a class="back-link" href="#/">← 一覧に戻る</a></header><div class="empty">曲が見つかりません</div>';
       return;
     }
 
-    count.textContent = songs.length + '曲';
-    list.innerHTML = songs.map(renderSong).join('');
+    const discLine = joinPlain(song.disc);
+    const discTypeLine = joinPlain(song.discType);
+    const metaParts = [song.release, discLine].filter(Boolean).join(' ・ ');
+
+    const streamLinks = [];
+    if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
+    if (song.apple) streamLinks.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
+
+    const ytList = (song.youtube || []).map(function (y) {
+      return '<div class="yt-item"><a href="' + y.url + '" target="_blank" rel="noopener">' + (y.title || 'YouTube') + '</a>' +
+        '<span class="yt-tag">' + (y.tag || []).join('・') + '</span></div>';
+    }).join('');
+
+    const soloUnitHtml = (function () {
+      if (song.solo && song.solo.length) return '<b>Solo</b> ' + joinLinks(song.solo, memberLink);
+      if (song.unit && song.unit.length) return '<b>Unit</b> ' + joinLinks(song.unit, memberLink);
+      return null;
+    })();
+
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>' + song.title + '</h1>' +
+        (metaParts ? '<p class="desc">' + metaParts + (discTypeLine ? ' ・ ' + discTypeLine : '') + '</p>' : '') +
+        (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
+      '</header>' +
+      '<main>' +
+        detailRow('タイアップ', tieupLabel(song.tieup).replace('タイアップ: ', '') || null) +
+        detailRow('作曲', joinLinks(song.music, personLink)) +
+        detailRow('作詞', joinLinks(song.lyrics, personLink)) +
+        detailRow('編曲', joinLinks(song.arrangement, personLink)) +
+        detailRow('その他クレジット', joinLinks(song.other, personLink)) +
+        detailRow('演奏・コーラス', joinLinks(song.musicianChorus, personLink)) +
+        detailRow('Mix', joinLinks(song.mix, personLink)) +
+        detailRow('Mastering', joinLinks(song.mastering, personLink)) +
+        detailRow('MV監督', joinLinks(song.movieDirector, personLink)) +
+        detailRow('振付', joinLinks(song.choreographer, personLink)) +
+        detailRow('Solo / Unit', soloUnitHtml) +
+        detailRow('タグ', joinPlain(song.tag)) +
+        (ytList ? '<div class="detail-section"><p class="detail-label">YouTube (' + song.youtube.length + ')</p>' + ytList + '</div>' : '') +
+      '</main>';
   }
 
-  function applyFilter(query) {
-    const q = query.trim().toLowerCase();
-    if (!q) { render(allSongs); return; }
+  // ---------- rendering: person (staff credit) page ----------
 
-    const filtered = allSongs.filter(function (song) {
-      const haystack = [
-        song.title,
-        joinNames(song.music),
-        joinNames(song.lyrics),
-        joinNames(song.arrangement),
-        (song.disc || []).join(' ')
-      ].filter(Boolean).join(' ').toLowerCase();
-      return haystack.indexOf(q) !== -1;
+  function renderPerson(name) {
+    const page = document.getElementById('page');
+    const roleKeys = Object.keys(ROLE_LABELS);
+    const grouped = {};
+
+    allSongs.forEach(function (song) {
+      roleKeys.forEach(function (role) {
+        if (song[role] && song[role].indexOf(name) !== -1) {
+          grouped[role] = grouped[role] || [];
+          grouped[role].push(song);
+        }
+      });
     });
 
-    render(filtered);
+    const totalCount = Object.keys(grouped).reduce(function (n, r) { return n + grouped[r].length; }, 0);
+
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>' + name + '</h1>' +
+        '<p class="desc">' + totalCount + '件のクレジット</p>' +
+      '</header>' +
+      '<main id="person-body"></main>';
+
+    const body = document.getElementById('person-body');
+    if (!totalCount) {
+      body.innerHTML = '<div class="empty">クレジットが見つかりません</div>';
+      return;
+    }
+
+    body.innerHTML = roleKeys.filter(function (r) { return grouped[r]; }).map(function (role) {
+      return '<div class="role-group">' +
+        '<p class="role-title">' + ROLE_LABELS[role] + '</p>' +
+        grouped[role].map(renderListEntry).join('') +
+      '</div>';
+    }).join('');
+  }
+
+  // ---------- rendering: member page ----------
+
+  function renderMember(name) {
+    const page = document.getElementById('page');
+    const color = memberColor(name);
+
+    const soloSongs = allSongs.filter(function (s) { return s.solo && s.solo.indexOf(name) !== -1; });
+    const unitSongs = allSongs.filter(function (s) { return s.unit && s.unit.indexOf(name) !== -1; });
+
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<div class="member-header"><span class="member-dot" style="background:' + color + '"></span><h1 style="margin:0">' + name + '</h1></div>' +
+        '<p class="desc">Solo ' + soloSongs.length + '曲 ・ Unit ' + unitSongs.length + '曲</p>' +
+      '</header>' +
+      '<main>' +
+        (soloSongs.length ? '<div class="role-group"><p class="role-title">Solo</p>' + soloSongs.map(renderListEntry).join('') + '</div>' : '') +
+        (unitSongs.length ? '<div class="role-group"><p class="role-title">Unit</p>' + unitSongs.map(renderListEntry).join('') + '</div>' : '') +
+        (!soloSongs.length && !unitSongs.length ? '<div class="empty">曲が見つかりません</div>' : '') +
+      '</main>';
+  }
+
+  // ---------- router ----------
+
+  function parseHash() {
+    const raw = location.hash.replace(/^#/, '') || '/';
+    const [path, queryStr] = raw.split('?');
+    return { path: path, params: new URLSearchParams(queryStr || '') };
+  }
+
+  function route() {
+    const { path, params } = parseHash();
+    const parts = path.split('/').filter(Boolean);
+
+    if (parts[0] === 'song' && parts[1]) { renderSongDetail(dec(parts[1])); return; }
+    if (parts[0] === 'person' && parts[1]) { renderPerson(dec(parts[1])); return; }
+    if (parts[0] === 'member' && parts[1]) { renderMember(dec(parts[1])); return; }
+    renderList(params);
   }
 
   fetch('songs.json')
     .then(function (res) { return res.json(); })
     .then(function (songs) {
-      allSongs = songs.slice().sort(function (a, b) { return (b.no || 0) - (a.no || 0); });
-      render(allSongs);
+      allSongs = songs;
+      songById = {};
+      songs.forEach(function (s) { songById[songKeyOf(s)] = s; });
+      window.addEventListener('hashchange', route);
+      route();
     })
     .catch(function (err) {
-      document.getElementById('count').textContent = '';
-      document.getElementById('list').innerHTML =
-        '<div class="empty">読み込みに失敗しました<span class="mono">' + err + '</span></div>';
+      document.getElementById('page').innerHTML = '<div class="empty">読み込みに失敗しました<span class="mono">' + err + '</span></div>';
     });
-
-  document.getElementById('search').addEventListener('input', function (e) {
-    applyFilter(e.target.value);
-  });
 </script>
 
 </body>
