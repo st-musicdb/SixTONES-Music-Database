@@ -112,6 +112,25 @@
   }
   .sort-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+  .tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding-top: 18px;
+  }
+  .tab-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .tab-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .tab-btn.active { background: var(--accent); color: #1b1b1e; border-color: var(--accent); }
+
   .count {
     padding: 14px 0 0;
     font-family: 'JetBrains Mono', monospace;
@@ -153,6 +172,8 @@
   .meta { font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-top: 4px; }
   .meta a { color: var(--text-muted); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
   .meta a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  .meta.tieup { color: var(--accent); }
+  header p.desc.tieup { color: var(--accent); }
 
   .credits { font-size: 13px; color: var(--text-muted); margin-top: 4px; line-height: 1.8; }
   .credits b { color: var(--text); font-weight: 500; margin-right: 4px; }
@@ -217,6 +238,7 @@
 <script>
   let allSongs = [];
   let songById = {};
+  let liveByName = {};
   const SITE_TITLE = 'SixTONES楽曲データベース';
 
   const MEMBER_STYLE = {
@@ -241,6 +263,31 @@
   };
 
   const YT_LIST_TAGS = ['Music Video', 'Performance', 'CD digeST'];
+
+  const TABS = [
+    { id: 'original', label: 'Original' },
+    { id: 'rearrange', label: 'Rearrange' },
+    { id: 'other', label: 'Other' },
+    { id: 'cover', label: 'Cover' },
+    { id: 'no-streaming', label: 'ストリーミング未配信' },
+    { id: 'all', label: 'All' }
+  ];
+
+  function isOriginalTag(tag) {
+    return tag.indexOf('Rearrange') === -1 && tag.indexOf('Other') === -1 && tag.indexOf('Cover') === -1;
+  }
+
+  function matchesTab(song, tabId) {
+    const tag = song.tag || [];
+    if (tabId === 'original') return isOriginalTag(tag);
+    if (tabId === 'rearrange') return tag.indexOf('Rearrange') !== -1;
+    if (tabId === 'other') return tag.indexOf('Other') !== -1;
+    if (tabId === 'cover') return tag.indexOf('Cover') !== -1;
+    if (tabId === 'no-streaming') {
+      return (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') === -1;
+    }
+    return true; // all
+  }
 
   // ---------- helpers ----------
 
@@ -306,7 +353,8 @@
   function renderListEntry(song, opts) {
     opts = opts || {};
     const discHtml = opts.hideDisc ? null : entityLinks(song.disc, 'disc');
-    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null, tieupNames(song)].filter(Boolean).join(' ・ ');
+    const metaLine = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
+    const tieupLine = tieupNames(song);
     const badgeLine = soloUnitLine(song);
 
     const creditRows = [];
@@ -324,7 +372,8 @@
       '<div class="entry">' +
         '<a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' +
         (badgeLine ? '<div class="badge-row">' + badgeLine + '</div>' : '') +
-        (metaParts ? '<div class="meta">' + metaParts + '</div>' : '') +
+        (metaLine ? '<div class="meta">' + metaLine + '</div>' : '') +
+        (tieupLine ? '<div class="meta tieup">' + tieupLine + '</div>' : '') +
         (creditRows.length ? '<div class="credits">' + creditRows.join(' / ') + '</div>' : '') +
         (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
       '</div>';
@@ -334,10 +383,13 @@
 
   function renderList(params) {
     const sort = params.get('sort') || 'desc';
+    const tab = params.get('tab') || 'original';
+
     const sorted = allSongs.slice().sort(function (a, b) {
       const diff = (a.no || 0) - (b.no || 0);
       return sort === 'asc' ? diff : -diff;
     });
+    const tabbed = sorted.filter(function (s) { return matchesTab(s, tab); });
 
     const page = document.getElementById('page');
     page.innerHTML = '' +
@@ -345,6 +397,9 @@
         '<p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>' +
         '<h1>' + SITE_TITLE + '</h1>' +
         '<p class="desc">クレジット・配信リンク・映像をまとめた、ファン有志による楽曲カタログ。曲名や作家名から他の楽曲、メンバーページへたどれます。</p>' +
+        '<div class="tabs">' + TABS.map(function (t) {
+          return '<button class="tab-btn' + (t.id === tab ? ' active' : '') + '" data-tab="' + t.id + '">' + t.label + '</button>';
+        }).join('') + '</div>' +
         '<div class="toolbar">' +
           '<span class="label mono">SEARCH</span>' +
           '<input type="text" id="search" placeholder="曲名・作家名で検索…" autocomplete="off">' +
@@ -355,7 +410,13 @@
       '<main id="list"></main>';
 
     document.getElementById('sort-toggle').addEventListener('click', function () {
-      location.hash = '/?sort=' + (sort === 'asc' ? 'desc' : 'asc');
+      location.hash = '/?tab=' + tab + '&sort=' + (sort === 'asc' ? 'desc' : 'asc');
+    });
+
+    page.querySelectorAll('.tab-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        location.hash = '/?tab=' + btn.getAttribute('data-tab') + '&sort=' + sort;
+      });
     });
 
     function draw(songs) {
@@ -367,15 +428,15 @@
         return;
       }
       count.textContent = songs.length + '曲';
-      list.innerHTML = songs.map(renderListEntry).join('');
+      list.innerHTML = songs.map(function (s) { return renderListEntry(s); }).join('');
     }
 
-    draw(sorted);
+    draw(tabbed);
 
     document.getElementById('search').addEventListener('input', function (e) {
       const q = e.target.value.trim().toLowerCase();
-      if (!q) { draw(sorted); return; }
-      draw(sorted.filter(function (song) {
+      if (!q) { draw(tabbed); return; }
+      draw(tabbed.filter(function (song) {
         const hay = [
           song.title,
           joinPlain(song.music),
@@ -406,8 +467,56 @@
     renderSimpleList('Tag: ' + name, allSongs.filter(function (s) { return s.tag && s.tag.indexOf(name) !== -1; }));
   }
 
+  function formatPeriod(live) {
+    if (!live || !live.periodStart) return null;
+    return (live.periodEnd && live.periodEnd !== live.periodStart)
+      ? live.periodStart + ' 〜 ' + live.periodEnd
+      : live.periodStart;
+  }
+
   function renderLive(name) {
-    renderSimpleList(name, allSongs.filter(function (s) { return s.live && s.live.indexOf(name) !== -1; }));
+    const page = document.getElementById('page');
+    const live = liveByName[name];
+    const songs = allSongs
+      .filter(function (s) { return s.live && s.live.indexOf(name) !== -1; })
+      .sort(function (a, b) { return (a.no || 0) - (b.no || 0); });
+
+    const metaBits = [];
+    if (live) {
+      const period = formatPeriod(live);
+      if (period) metaBits.push(period);
+      if (live.category) metaBits.push(live.category);
+    }
+
+    const musiciansHtml = live && live.musicians && live.musicians.length ? live.musicians.join('・') : null;
+    const noteHtml = live && live.note ? live.note : null;
+    const bodyHtml = live && live.bodyText
+      ? '<div class="detail-section"><p class="detail-label">Notion</p><div class="detail-value" style="white-space:pre-line">' + live.bodyText + '</div></div>'
+      : '';
+    const ytList = live && live.youtube && live.youtube.length
+      ? live.youtube.map(function (y) {
+          return '<div class="yt-item"><a href="' + y.url + '" target="_blank" rel="noopener">' + (y.title || 'YouTube') + '</a>' +
+            '<span class="yt-tag">' + (y.tag || []).join('・') + '</span></div>';
+        }).join('')
+      : '';
+
+    page.innerHTML = '' +
+      '<header>' +
+        '<a class="back-link" href="#/">← 一覧に戻る</a>' +
+        '<h1>' + name + '</h1>' +
+        (metaBits.length ? '<p class="desc">' + metaBits.join(' ・ ') + '</p>' : '') +
+        (musiciansHtml ? '<p class="desc">Musician：' + musiciansHtml + '</p>' : '') +
+        '<div class="links">' + shareButton(name) + '</div>' +
+      '</header>' +
+      '<main>' +
+        (noteHtml ? detailRow('備考', noteHtml) : '') +
+        bodyHtml +
+        (ytList ? '<div class="detail-section"><p class="detail-label">YouTube</p>' + ytList + '</div>' : '') +
+        '<div class="role-group">' +
+          '<p class="role-title">収録曲（No.順・実際のセットリスト順ではありません）</p>' +
+          (songs.length ? songs.map(function (s) { return renderListEntry(s); }).join('') : '<div class="empty">曲が見つかりません</div>') +
+        '</div>' +
+      '</main>';
   }
 
   // ---------- rendering: disc page (grouped by disc type) ----------
@@ -423,8 +532,9 @@
     const noType = [];
 
     songs.forEach(function (song) {
-      if (song.discType && song.discType.length) {
-        song.discType.forEach(function (t) {
+      const ownTypes = (song.discType || []).filter(function (t) { return t.indexOf(name + ' - ') === 0; });
+      if (ownTypes.length) {
+        ownTypes.forEach(function (t) {
           if (!groups[t]) { groups[t] = []; order.push(t); }
           groups[t].push(song);
         });
@@ -479,7 +589,8 @@
     }
 
     const discHtml = entityLinks(song.disc, 'disc');
-    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null, tieupNames(song)].filter(Boolean).join(' ・ ');
+    const metaLine = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
+    const tieupLine = tieupNames(song);
 
     const streamLinks = [];
     if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
@@ -495,7 +606,8 @@
       '<header>' +
         '<a class="back-link" href="#/">← 一覧に戻る</a>' +
         '<h1>' + song.title + '</h1>' +
-        (metaParts ? '<p class="desc">' + metaParts + '</p>' : '') +
+        (metaLine ? '<p class="desc">' + metaLine + '</p>' : '') +
+        (tieupLine ? '<p class="desc tieup">' + tieupLine + '</p>' : '') +
         '<div class="links">' + streamLinks.join('') + '</div>' +
       '</header>' +
       '<main>' +
@@ -606,6 +718,13 @@
       allSongs = songs;
       songById = {};
       songs.forEach(function (s) { songById[songKeyOf(s)] = s; });
+
+      return fetch('lives.json').then(function (res) { return res.json(); }).catch(function () { return []; });
+    })
+    .then(function (lives) {
+      liveByName = {};
+      lives.forEach(function (l) { liveByName[l.name] = l; });
+
       window.addEventListener('hashchange', route);
       route();
     })
