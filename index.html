@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SixTONES Music Database</title>
+<title>SixTONES楽曲データベース</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -217,7 +217,7 @@
 <script>
   let allSongs = [];
   let songById = {};
-  const SITE_TITLE = 'SixTONES Music Database';
+  const SITE_TITLE = 'SixTONES楽曲データベース';
 
   const MEMBER_STYLE = {
     'ジェシー':   { bg: '#e2434f', text: '#ffffff' },
@@ -289,17 +289,24 @@
     }).filter(Boolean);
   }
 
-  function shareOnXButton(song) {
-    const text = enc(song.title + ' | ' + SITE_TITLE);
+  function shareButton(title) {
+    const text = enc(title + ' | ' + SITE_TITLE);
     const url = enc(location.href);
     return '<a class="share" href="https://twitter.com/intent/tweet?text=' + text + '&url=' + url + '" target="_blank" rel="noopener">Share on X</a>';
   }
 
+  function tieupNames(song) {
+    if (!song.tieup || !song.tieup.length) return null;
+    const names = song.tieup.map(function (t) { return t.name; }).filter(Boolean);
+    return names.length ? names.join('・') : null;
+  }
+
   // ---------- rendering: list entry (shared by list / person / member / disc / tag / live pages) ----------
 
-  function renderListEntry(song) {
-    const discHtml = entityLinks(song.disc, 'disc');
-    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
+  function renderListEntry(song, opts) {
+    opts = opts || {};
+    const discHtml = opts.hideDisc ? null : entityLinks(song.disc, 'disc');
+    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null, tieupNames(song)].filter(Boolean).join(' ・ ');
     const badgeLine = soloUnitLine(song);
 
     const creditRows = [];
@@ -390,8 +397,9 @@
         '<a class="back-link" href="#/">← 一覧に戻る</a>' +
         '<h1>' + title + '</h1>' +
         '<p class="desc">' + songs.length + '曲</p>' +
+        '<div class="links">' + shareButton(title) + '</div>' +
       '</header>' +
-      '<main>' + (songs.length ? songs.map(renderListEntry).join('') : '<div class="empty">曲が見つかりません</div>') + '</main>';
+      '<main>' + (songs.length ? songs.map(function (s) { return renderListEntry(s); }).join('') : '<div class="empty">曲が見つかりません</div>') + '</main>';
   }
 
   function renderTag(name) {
@@ -406,7 +414,9 @@
 
   function renderDisc(name) {
     const page = document.getElementById('page');
-    const songs = allSongs.filter(function (s) { return s.disc && s.disc.indexOf(name) !== -1; });
+    const songs = allSongs
+      .filter(function (s) { return s.disc && s.disc.indexOf(name) !== -1; })
+      .sort(function (a, b) { return (a.no || 0) - (b.no || 0); });
 
     const groups = {};
     const order = [];
@@ -428,6 +438,7 @@
         '<a class="back-link" href="#/">← 一覧に戻る</a>' +
         '<h1>' + name + '</h1>' +
         '<p class="desc">' + songs.length + '曲収録</p>' +
+        '<div class="links">' + shareButton(name) + '</div>' +
       '</header>' +
       '<main id="disc-body"></main>';
 
@@ -437,12 +448,15 @@
       return;
     }
 
+    const entryOpts = { hideDisc: true };
     let html = order.map(function (type) {
-      return '<div class="role-group"><p class="role-title">' + type + '</p>' + groups[type].map(renderListEntry).join('') + '</div>';
+      return '<div class="role-group"><p class="role-title">' + type + '</p>' +
+        groups[type].map(function (s) { return renderListEntry(s, entryOpts); }).join('') + '</div>';
     }).join('');
 
     if (noType.length) {
-      html += '<div class="role-group"><p class="role-title">形態未設定</p>' + noType.map(renderListEntry).join('') + '</div>';
+      html += '<div class="role-group"><p class="role-title">形態未設定</p>' +
+        noType.map(function (s) { return renderListEntry(s, entryOpts); }).join('') + '</div>';
     }
 
     body.innerHTML = html;
@@ -465,12 +479,12 @@
     }
 
     const discHtml = entityLinks(song.disc, 'disc');
-    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
+    const metaParts = [song.release, discHtml ? '収録：' + discHtml : null, tieupNames(song)].filter(Boolean).join(' ・ ');
 
     const streamLinks = [];
     if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
     if (song.apple) streamLinks.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
-    streamLinks.push(shareOnXButton(song));
+    streamLinks.push(shareButton(song.title));
 
     const ytList = (song.youtube || []).map(function (y) {
       return '<div class="yt-item"><a href="' + y.url + '" target="_blank" rel="noopener">' + (y.title || 'YouTube') + '</a>' +
@@ -524,6 +538,7 @@
         '<a class="back-link" href="#/">← 一覧に戻る</a>' +
         '<h1>' + name + '</h1>' +
         '<p class="desc">' + totalCount + '件のクレジット</p>' +
+        '<div class="links">' + shareButton(name) + '</div>' +
       '</header>' +
       '<main id="person-body"></main>';
 
@@ -555,6 +570,7 @@
         '<a class="back-link" href="#/">← 一覧に戻る</a>' +
         '<div class="member-header"><span class="member-dot" style="background:' + style.bg + '"></span><h1 style="margin:0">' + name + '</h1></div>' +
         '<p class="desc">Solo ' + soloSongs.length + '曲 ・ Unit ' + unitSongs.length + '曲</p>' +
+        '<div class="links">' + shareButton(name) + '</div>' +
       '</header>' +
       '<main>' +
         (soloSongs.length ? '<div class="role-group"><p class="role-title">Solo</p>' + soloSongs.map(renderListEntry).join('') + '</div>' : '') +
