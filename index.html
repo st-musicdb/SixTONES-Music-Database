@@ -62,13 +62,13 @@
     margin: 0 0 10px;
   }
 
+  .nav-links { display: flex; gap: 16px; margin-bottom: 18px; }
   .back-link {
     display: inline-block;
     font-family: 'M PLUS 1p', monospace;
     font-size:13.5px;
     color: var(--slate);
     text-decoration: none;
-    margin-bottom: 18px;
   }
   .back-link:hover { color: var(--accent); }
 
@@ -175,14 +175,14 @@
 
   .title-link {
     font-weight: 700;
-    font-size:17px;
+    font-size: 20px;
     line-height: 1.4;
     text-decoration: none;
     color: var(--text);
   }
   .title-link:hover { color: var(--accent); }
 
-  .badge-row { margin-top: 6px; font-size:13.5px; color: var(--text-muted); }
+  .badge-row { margin-top: 6px; font-size:12.5px; color: var(--text-muted); }
 
   .member-badge {
     display: inline-block;
@@ -195,13 +195,13 @@
     border: 1px solid var(--border);
   }
 
-  .meta { font-size:15px; color: var(--text-muted); line-height: 1.8; margin-top: 6px; }
+  .meta { font-size:13.5px; color: var(--text-muted); line-height: 1.8; margin-top: 6px; }
   .meta a { color: var(--text-muted); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
   .meta a:hover { color: var(--accent); text-decoration-color: var(--accent); }
   .meta.tieup { color: var(--accent); }
   header p.desc.tieup { color: var(--accent); }
 
-  .credits { font-size:15px; color: var(--text-muted); margin-top: 6px; line-height: 1.8; }
+  .credits { font-size:13.5px; color: var(--text-muted); margin-top: 6px; line-height: 1.8; }
   .credits b { color: var(--text); font-weight: 500; margin-right: 4px; }
   .credits a { color: var(--text-muted); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
   .credits a:hover { color: var(--accent); text-decoration-color: var(--accent); }
@@ -243,6 +243,13 @@
   .yt-item { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; font-size:14.5px; }
   .yt-item a { text-decoration: none; color: var(--text); flex: 1; }
   .yt-item a:hover { color: var(--accent); }
+
+  .yt-embed { padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .yt-embed:last-child { border-bottom: none; }
+  .yt-embed-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+  .yt-embed-title { font-size:14.5px; font-weight: 500; }
+  .yt-embed-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; background: #000; }
+  .yt-embed-frame iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
   .yt-tag { color: var(--text-muted); font-family: 'M PLUS 1p', monospace; font-size:12.5px; flex-shrink: 0; }
 
   .member-header { display: flex; align-items: center; gap: 12px; justify-content: space-between; }
@@ -372,6 +379,7 @@
     { id: 'rearrange', label: 'Rearrange' },
     { id: 'other', label: 'Other' },
     { id: 'cover', label: 'Cover' },
+    { id: 'streaming', label: 'ストリーミング' },
     { id: 'no-streaming', label: 'ストリーミング未配信' },
     { id: 'all', label: 'All' }
   ];
@@ -394,6 +402,9 @@
     if (tabId === 'rearrange') return tag.indexOf('Rearrange') !== -1;
     if (tabId === 'other') return tag.indexOf('Other') !== -1;
     if (tabId === 'cover') return tag.indexOf('Cover') !== -1;
+    if (tabId === 'streaming') {
+      return (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') !== -1;
+    }
     if (tabId === 'no-streaming') {
       return (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') === -1;
     }
@@ -406,7 +417,10 @@
   function dec(s) { return decodeURIComponent(s); }
 
   function backLink() {
-    return '<a class="back-link" href="javascript:void(0)" onclick="history.back()">← 戻る</a>';
+    return '<div class="nav-links">' +
+      '<a class="back-link" href="javascript:void(0)" onclick="history.back()">← 戻る</a>' +
+      '<a class="back-link" href="#/">TOPへ</a>' +
+    '</div>';
   }
 
   // ソート/タブの切り替えは履歴を汚さないよう replaceState で行う（戻るボタンで一段飛ばしにしない）
@@ -455,6 +469,21 @@
       const match = song.youtube.find(function (y) { return y.tag && y.tag.indexOf(tag) !== -1; });
       return match ? '<a class="youtube" href="' + match.url + '" target="_blank" rel="noopener">▶︎ ' + tag + '</a>' : null;
     }).filter(Boolean);
+  }
+
+  function extractYoutubeId(url) {
+    if (!url) return null;
+    const patterns = [
+      /[?&]v=([^&]+)/,
+      /youtu\.be\/([^?&]+)/,
+      /youtube\.com\/embed\/([^?&]+)/,
+      /youtube\.com\/shorts\/([^?&]+)/
+    ];
+    for (let i = 0; i < patterns.length; i++) {
+      const m = url.match(patterns[i]);
+      if (m) return m[1];
+    }
+    return null;
   }
 
   function shareButton(title) {
@@ -742,8 +771,16 @@
     if (song.apple) streamLinks.push('<a class="apple" href="' + song.apple + '" target="_blank" rel="noopener">▶︎ Apple Music</a>');
 
     const ytList = (song.youtube || []).map(function (y) {
-      return '<div class="yt-item"><a href="' + y.url + '" target="_blank" rel="noopener">▶︎ ' + (y.title || 'YouTube') + '</a>' +
+      const videoId = extractYoutubeId(y.url);
+      const head = '<div class="yt-embed-head"><span class="yt-embed-title">' + (y.title || 'YouTube') + '</span>' +
         '<span class="yt-tag">' + (y.tag || []).join('・') + '</span></div>';
+      if (videoId) {
+        return '<div class="yt-embed">' + head +
+          '<div class="yt-embed-frame"><iframe src="https://www.youtube.com/embed/' + videoId + '" title="' + (y.title || 'YouTube') + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>' +
+        '</div>';
+      }
+      // 動画IDが取れなかった場合はリンクだけにフォールバック
+      return '<div class="yt-embed">' + head + '<a href="' + y.url + '" target="_blank" rel="noopener">▶︎ 動画を開く</a></div>';
     }).join('');
 
     page.innerHTML = '' +
