@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>SixTONES Songs (動作確認用)</title>
+</head>
+<body>
+  <h1>Songs</h1>
+  <ul id="song-list">読み込み中...</ul>
+
+  <script>
+    fetch('songs.json')
+      .then(function (res) { return res.json(); })
+      .then(function (songs) {
+        const list = document.getElementById('song-list');
+        list.innerHTML = '';
+        songs.forEach(function (song) {
+          const li = document.createElement('li');
+          li.textContent = song.no + '. ' + song.title;
+          list.appendChild(li);
+        });
+      })
+      .catch(function (err) {
+        document.getElementById('song-list').textContent = '読み込み失敗: ' + err;
+      });
+  </script>
+</body>
+</html>
