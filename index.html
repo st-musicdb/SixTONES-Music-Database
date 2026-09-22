@@ -2,27 +2,328 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>SixTONES Songs (動作確認用)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SixTONES Music Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1b1b1e;
+    --surface: #232327;
+    --surface-hover: #2a2a2f;
+    --text: #ede9e2;
+    --text-muted: #96918a;
+    --accent: #c99a5b;
+    --slate: #7c93a8;
+    --border: #38383d;
+    --max-width: 760px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  header {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 56px 20px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--slate);
+    margin: 0 0 10px;
+  }
+
+  h1 {
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 38px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+
+  header p {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin: 0 0 24px;
+    max-width: 46ch;
+  }
+
+  .search-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+  }
+
+  .search-row .mono {
+    color: var(--text-muted);
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  #search {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    padding: 4px 0;
+  }
+
+  #search::placeholder { color: #5c5952; }
+
+  .count {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 14px 20px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 4px 20px 80px;
+  }
+
+  .entry {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.15s ease;
+  }
+
+  .entry:hover { background-color: var(--surface-hover); }
+
+  .no {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    padding-top: 3px;
+  }
+
+  .no::before { content: "No."; color: var(--text-muted); margin-right: 2px; }
+
+  .title-row {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--slate);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  .meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .meta .tieup { color: var(--accent); }
+
+  .credits {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.8;
+  }
+
+  .credits b { color: var(--text); font-weight: 500; }
+
+  .links {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 3px 8px;
+  }
+
+  .links a:hover { border-color: var(--accent); color: var(--accent); }
+
+  .empty {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .empty .mono { display: block; margin-top: 6px; font-size: 12px; }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f4f2ee;
+      --surface: #ffffff;
+      --surface-hover: #ebe8e2;
+      --text: #232022;
+      --text-muted: #7a756c;
+      --border: #ddd8ce;
+    }
+  }
+</style>
 </head>
 <body>
-  <h1>Songs</h1>
-  <ul id="song-list">読み込み中...</ul>
 
-  <script>
-    fetch('songs.json')
-      .then(function (res) { return res.json(); })
-      .then(function (songs) {
-        const list = document.getElementById('song-list');
-        list.innerHTML = '';
-        songs.forEach(function (song) {
-          const li = document.createElement('li');
-          li.textContent = song.no + '. ' + song.title;
-          list.appendChild(li);
-        });
-      })
-      .catch(function (err) {
-        document.getElementById('song-list').textContent = '読み込み失敗: ' + err;
-      });
-  </script>
+<header>
+  <p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>
+  <h1>SixTONES Music Database</h1>
+  <p>クレジット・配信リンク・映像をまとめた、ファン有志による楽曲カタログ。曲名や参加スタッフの名前で検索できます。</p>
+  <div class="search-row">
+    <span class="mono">SEARCH</span>
+    <input type="text" id="search" placeholder="曲名・作家名で検索…" autocomplete="off">
+  </div>
+</header>
+
+<p class="count" id="count">読み込み中…</p>
+
+<main id="list"></main>
+
+<script>
+  let allSongs = [];
+
+  function joinNames(arr) {
+    return (arr && arr.length) ? arr.join('・') : null;
+  }
+
+  function renderTieup(tieup) {
+    if (!tieup || !tieup.length) return '';
+    const t = tieup[0];
+    const label = [t.category, t.name].filter(Boolean).join(' ');
+    return '<div class="tieup">' + label + '</div>';
+  }
+
+  function renderBadge(song) {
+    if (song.solo && song.solo.length) {
+      return '<span class="badge">Solo: ' + joinNames(song.solo) + '</span>';
+    }
+    if (song.unit && song.unit.length) {
+      return '<span class="badge">Unit: ' + joinNames(song.unit) + '</span>';
+    }
+    return '';
+  }
+
+  function renderCredits(song) {
+    const rows = [];
+    const music = joinNames(song.music);
+    const lyrics = joinNames(song.lyrics);
+    if (music) rows.push('<b>作曲</b> ' + music);
+    if (lyrics) rows.push('<b>作詞</b> ' + lyrics);
+    return rows.length ? '<div class="credits">' + rows.join(' / ') + '</div>' : '';
+  }
+
+  function renderLinks(song) {
+    const links = [];
+    if (song.spotify) links.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
+    if (song.apple) links.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
+    if (song.youtube && song.youtube.length) links.push('<a href="' + song.youtube[0].url + '" target="_blank" rel="noopener">YouTube</a>');
+    return links.length ? '<div class="links">' + links.join('') + '</div>' : '';
+  }
+
+  function renderSong(song) {
+    const disc = song.disc && song.disc.length ? song.disc[0] : null;
+    const metaLine = [song.release, disc].filter(Boolean).join(' ・ ');
+    return '' +
+      '<div class="entry">' +
+        '<div class="no mono">' + String(song.no != null ? song.no : '').padStart(3, '0') + '</div>' +
+        '<div>' +
+          '<div class="title-row">' + song.title + renderBadge(song) + '</div>' +
+          '<div class="meta">' + metaLine + renderTieup(song.tieup) + '</div>' +
+          renderCredits(song) +
+          renderLinks(song) +
+        '</div>' +
+      '</div>';
+  }
+
+  function render(songs) {
+    const list = document.getElementById('list');
+    const count = document.getElementById('count');
+
+    if (!songs.length) {
+      list.innerHTML = '<div class="empty">該当する曲が見つかりません<span class="mono">別のキーワードで試してみてください</span></div>';
+      count.textContent = '';
+      return;
+    }
+
+    count.textContent = songs.length + '曲';
+    list.innerHTML = songs.map(renderSong).join('');
+  }
+
+  function applyFilter(query) {
+    const q = query.trim().toLowerCase();
+    if (!q) { render(allSongs); return; }
+
+    const filtered = allSongs.filter(function (song) {
+      const haystack = [
+        song.title,
+        joinNames(song.music),
+        joinNames(song.lyrics),
+        joinNames(song.arrangement),
+        (song.disc || []).join(' ')
+      ].filter(Boolean).join(' ').toLowerCase();
+      return haystack.indexOf(q) !== -1;
+    });
+
+    render(filtered);
+  }
+
+  fetch('songs.json')
+    .then(function (res) { return res.json(); })
+    .then(function (songs) {
+      allSongs = songs.slice().sort(function (a, b) { return (b.no || 0) - (a.no || 0); });
+      render(allSongs);
+    })
+    .catch(function (err) {
+      document.getElementById('count').textContent = '';
+      document.getElementById('list').innerHTML =
+        '<div class="empty">読み込みに失敗しました<span class="mono">' + err + '</span></div>';
+    });
+
+  document.getElementById('search').addEventListener('input', function (e) {
+    applyFilter(e.target.value);
+  });
+</script>
+
 </body>
 </html>
