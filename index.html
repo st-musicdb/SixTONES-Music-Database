@@ -28,6 +28,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    font-weight: 500;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     -webkit-font-smoothing: antialiased;
@@ -70,8 +71,7 @@
     color: var(--text-muted);
     font-size: 14.5px;
     line-height: 1.7;
-    margin: 0 0 24px;
-    max-width: 46ch;
+    margin: 0 0 16px;
   }
   header p.desc a { text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
   header p.desc a:hover { color: var(--accent); text-decoration-color: var(--accent); }
@@ -148,6 +148,8 @@
   }
   .entry:hover { background-color: var(--surface-hover); }
 
+  .title-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
   .title-link {
     font-weight: 700;
     font-size: 17px;
@@ -180,8 +182,10 @@
   .credits a { color: var(--text-muted); text-decoration: underline; text-decoration-color: var(--border); text-underline-offset: 2px; }
   .credits a:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
-  .links { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
-  .links a {
+  .links, .stream-links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .links { margin-top: 10px; }
+  .stream-links { flex-shrink: 0; }
+  .links a, .stream-links a {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     text-decoration: none;
@@ -190,8 +194,11 @@
     padding: 3px 8px;
     color: var(--text);
   }
-  .links a:hover { border-color: var(--accent); color: var(--accent); }
-  .links a.share { border-color: var(--accent); color: var(--accent); }
+  .links a:hover, .stream-links a:hover { opacity: 0.75; }
+  .share { border-color: var(--accent); color: var(--accent); }
+  .spotify { border-color: #1db954; color: #1db954; }
+  .apple { border-color: #fa57c1; color: #fa57c1; }
+  .youtube { border-color: #ff3b30; color: #ff3b30; }
 
   .empty { padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 14px; }
   .empty .mono { display: block; margin-top: 6px; font-size: 12px; }
@@ -227,7 +234,7 @@
     font-size: 12px;
     color: var(--slate);
     text-decoration: none;
-    margin: 0 0 24px;
+    align-self: center;
   }
   .notice-link:hover { color: var(--accent); }
 
@@ -346,7 +353,7 @@
     if (!song.youtube || !song.youtube.length) return [];
     return YT_LIST_TAGS.map(function (tag) {
       const match = song.youtube.find(function (y) { return y.tag && y.tag.indexOf(tag) !== -1; });
-      return match ? '<a href="' + match.url + '" target="_blank" rel="noopener">' + tag + '</a>' : null;
+      return match ? '<a class="youtube" href="' + match.url + '" target="_blank" rel="noopener">' + tag + '</a>' : null;
     }).filter(Boolean);
   }
 
@@ -378,18 +385,22 @@
     if (lyricsLinks) creditRows.push('<b>' + ROLE_LABELS.lyrics + '</b>' + lyricsLinks);
 
     const streamLinks = [];
-    if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
-    if (song.apple) streamLinks.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
-    ytTagButtons(song).forEach(function (btn) { streamLinks.push(btn); });
+    if (song.spotify) streamLinks.push('<a class="spotify" href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
+    if (song.apple) streamLinks.push('<a class="apple" href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
+
+    const ytButtons = ytTagButtons(song);
 
     return '' +
       '<div class="entry">' +
-        '<a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' +
+        '<div class="title-row">' +
+          '<a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' +
+          (streamLinks.length ? '<div class="stream-links">' + streamLinks.join('') + '</div>' : '') +
+        '</div>' +
         (badgeLine ? '<div class="badge-row">' + badgeLine + '</div>' : '') +
         (metaLine ? '<div class="meta">' + metaLine + '</div>' : '') +
         (tieupLine ? '<div class="meta tieup">' + tieupLine + '</div>' : '') +
         (creditRows.length ? '<div class="credits">' + creditRows.join(' / ') + '</div>' : '') +
-        (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
+        (ytButtons.length ? '<div class="links">' + ytButtons.join('') + '</div>' : '') +
       '</div>';
   }
 
@@ -411,7 +422,11 @@
         '<p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>' +
         '<h1>' + SITE_TITLE + '</h1>' +
         '<p class="desc">SixTONES楽曲に携わる作家・演奏家・MV監督・コレオグラファー・公式YouTube等の情報を集約したファンサイト</p>' +
-        '<a class="notice-link" href="#/notice">⚠️ 注意事項</a>' +
+        '<p class="desc">SixTONES：6人組男性アイドルグループ。2015年5月1日結成、2020年1月22日｢<a href="#/disc/' + enc('Imitation Rain') + '">Imitation Rain</a>｣でデビュー。メンバーはジェシー・京本大我・松村北斗・髙地優吾・森本慎太郎・田中樹。</p>' +
+        '<div class="links">' +
+          '<a class="notice-link" href="#/notice">⚠️ 注意事項</a>' +
+          shareButton(SITE_TITLE) +
+        '</div>' +
         '<div class="tabs">' + TABS.map(function (t) {
           return '<button class="tab-btn' + (t.id === tab ? ' active' : '') + '" data-tab="' + t.id + '">' + t.label + '</button>';
         }).join('') + '</div>' +
@@ -610,8 +625,8 @@
     const tieupLine = tieupNames(song);
 
     const streamLinks = [];
-    if (song.spotify) streamLinks.push('<a href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
-    if (song.apple) streamLinks.push('<a href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
+    if (song.spotify) streamLinks.push('<a class="spotify" href="' + song.spotify + '" target="_blank" rel="noopener">Spotify</a>');
+    if (song.apple) streamLinks.push('<a class="apple" href="' + song.apple + '" target="_blank" rel="noopener">Apple Music</a>');
     streamLinks.push(shareButton(song.title));
 
     const ytList = (song.youtube || []).map(function (y) {
@@ -699,9 +714,6 @@
       '<main>' +
         '<div class="detail-section">' +
           '<ul class="notice-list">' + NOTICE_ITEMS.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
-        '</div>' +
-        '<div class="detail-section">' +
-          '<p class="detail-value">SixTONES：6人組男性アイドルグループ。2015年5月1日結成、2020年1月22日｢<a href="#/disc/' + enc('Imitation Rain') + '">Imitation Rain</a>｣でデビュー。メンバーはジェシー・京本大我・松村北斗・髙地優吾・森本慎太郎・田中樹。</p>' +
         '</div>' +
       '</main>';
   }

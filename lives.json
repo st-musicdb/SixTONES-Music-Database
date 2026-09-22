@@ -123,7 +123,7 @@
   },
   {
     "name": "MILESixTONES",
-    "category": "アリーナ・ホール",
+    "category": "アリーナ",
     "periodStart": "2026-01-07",
     "periodEnd": "2026-06-14",
     "note": "",
@@ -531,7 +531,6 @@
         "title": "SixTONES – 「VVS」LIVE DVD / Blu-ray digeST",
         "url": "https://www.youtube.com/watch?v=KTYgAaipdwk",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       },
@@ -539,7 +538,6 @@
         "title": "SixTONES – 「VVS」LIVE DVD / Blu-ray 特典映像 digeST",
         "url": "https://www.youtube.com/watch?v=25HS49HEOq8",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       }
@@ -594,7 +592,6 @@
         "title": "SixTONES – 「慣声の法則 in DOME」LIVE DVD / Blu-ray digeST",
         "url": "https://www.youtube.com/watch?v=h6JIEfbQvjw",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       },
@@ -602,7 +599,6 @@
         "title": "SixTONES – 「慣声の法則 in DOME」LIVE DVD / Blu-ray 特典映像 digeST",
         "url": "https://www.youtube.com/watch?v=UgOKP3ECmQE",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       }
@@ -619,7 +615,7 @@
   },
   {
     "name": "慣声の法則",
-    "category": "アリーナ・ホール",
+    "category": "アリーナ",
     "periodStart": "2023-01-04",
     "periodEnd": "2023-03-19",
     "note": "",
@@ -636,7 +632,6 @@
         "title": "SixTONES – 「慣声の法則 in DOME」LIVE DVD / Blu-ray 特典映像 digeST",
         "url": "https://www.youtube.com/watch?v=UgOKP3ECmQE",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       }
@@ -650,7 +645,7 @@
   },
   {
     "name": "Feel da CITY",
-    "category": "アリーナ・ホール",
+    "category": "アリーナ",
     "periodStart": "2022-01-04",
     "periodEnd": "2022-06-02",
     "note": "",
@@ -681,7 +676,6 @@
         "title": "SixTONES –「Feel da CITY」LIVE DVD/Blu-ray digeST",
         "url": "https://www.youtube.com/watch?v=m0N4MIhe12Q",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       },
@@ -689,7 +683,6 @@
         "title": "SixTONES –「Feel da CITY」LIVE DVD/Blu-ray 特典映像 digeST",
         "url": "https://www.youtube.com/watch?v=u_FiiqpImwo",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       }
@@ -706,7 +699,7 @@
   },
   {
     "name": "on eST",
-    "category": "アリーナ・ホール",
+    "category": "アリーナ",
     "periodStart": "2021-01-04",
     "periodEnd": "2021-06-27",
     "note": "",
@@ -744,7 +737,6 @@
         "title": "SixTONES – 「on eST」LIVE DVD / Blu-ray digeST",
         "url": "https://www.youtube.com/watch?v=Bn5ro8hpluI",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       },
@@ -752,7 +744,6 @@
         "title": "SixTONES -「DOCUMENT “on eST”」digeST from LIVE DVD/Blu-ray 「on eST」通常盤",
         "url": "https://www.youtube.com/watch?v=VwICI0sKUlc",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       },
@@ -760,7 +751,6 @@
         "title": "SixTONES – メンバーによる「on eST」ビジュアルコメンタリーdigeST　from LIVE DVD/Blu-ray「on eST」初回盤",
         "url": "https://www.youtube.com/watch?v=7hik_3Nt0gI",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       }
@@ -774,7 +764,7 @@
   },
   {
     "name": "TrackONE -IMPACT-",
-    "category": "アリーナ・ホール",
+    "category": "アリーナ",
     "periodStart": "2020-01-04",
     "periodEnd": "2020-09-20",
     "note": "",
@@ -819,7 +809,6 @@
         "title": "SixTONES「TrackONE -IMPACT-」LIVE DVD/Blu-ray ダイジェスト",
         "url": "https://www.youtube.com/watch?v=hKI6SWJP5_0",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       },
@@ -827,7 +816,6 @@
         "title": "SixTONES「DOCUMENT Rough \"xxxxxx\"～TrackONE -IMPACT-」 ダイジェスト",
         "url": "https://www.youtube.com/watch?v=vnagPShJpDw",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       }
@@ -841,7 +829,7 @@
   },
   {
     "name": "Rough \"xxxxxx”",
-    "category": "アリーナ・ホール",
+    "category": "ホール",
     "periodStart": "2019-10-09",
     "periodEnd": "2019-12-23",
     "note": "",
@@ -851,7 +839,6 @@
         "title": "SixTONES「Rough \"xxxxxx\" 2019.11.19 東京国際フォーラム DIGEST」ダイジェスト",
         "url": "https://www.youtube.com/watch?v=x1naN_Rg50g",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       },
@@ -859,7 +846,6 @@
         "title": "SixTONES「DOCUMENT Rough \"xxxxxx\"～TrackONE -IMPACT-」 ダイジェスト",
         "url": "https://www.youtube.com/watch?v=vnagPShJpDw",
         "tag": [
-          "CD digeST",
           "BD/DVD digeST"
         ]
       }
@@ -873,7 +859,7 @@
   },
   {
     "name": "CHANGE THE ERA -201ix-",
-    "category": "アリーナ・ホール",
+    "category": "アリーナ",
     "periodStart": "2019-03-21",
     "periodEnd": "2019-05-02",
     "note": "",
