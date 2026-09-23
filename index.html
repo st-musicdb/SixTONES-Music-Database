@@ -1254,7 +1254,7 @@
       '<main>' + (videos.length
         ? '<div class="yt-grid">' + videos.map(function (y) {
             const vid = extractYoutubeId(y.url);
-            const thumb = vid ? 'https://img.youtube.com/vi/' + vid + '/mqdefault.jpg' : '';
+            const thumb = y.thumbnail || (vid ? 'https://img.youtube.com/vi/' + vid + '/hqdefault.jpg' : '');
             return '<a class="yt-grid-item" href="' + y.url + '" target="_blank" rel="noopener">' +
               (thumb ? '<img src="' + thumb + '" alt="" loading="lazy">' : '<div class="yt-grid-noimg">▶︎</div>') +
               '<span>' + (y.title || 'YouTube') + '</span>' +
