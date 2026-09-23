@@ -222,7 +222,7 @@
   .share { background: #000000; color: #ffffff; border-color: var(--border); }
   .spotify { border-color: #1db954; color: #1db954; }
   .apple { border-color: #fa57c1; color: #fa57c1; }
-  .youtube { background: #ff3b30; color: #ffffff; border-color: #ff3b30; }
+  .youtube { background: #ff0000; color: #ffffff; border-color: #ff0000; }
 
   .empty { padding: 60px 0; text-align: center; color: var(--text-muted); font-size:15px; }
   .empty .mono { display: block; margin-top: 6px; font-size:13.5px; }
@@ -257,7 +257,7 @@
   .member-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
 
   .role-group { margin-top: 22px; margin-bottom: 22px; }
-  .role-title { font-family: 'M PLUS 1p', monospace; font-size:13.5px; color: var(--slate); margin: 0 0 8px; }
+  .role-title { font-family: 'M PLUS 1p', monospace; font-size:18px; font-weight: 700; color: var(--text); margin: 0 0 10px; }
   .live-note { font-size:13.5px; color: var(--text-muted); margin: 0 0 4px; }
 
   .index-list { list-style: none; margin: 0; padding: 0; }
@@ -288,6 +288,24 @@
   .footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
   .footer-links a { font-size:14px; color: var(--text-muted); text-decoration: none; }
   .footer-links a:hover { color: var(--accent); }
+
+  .scroll-top-btn {
+    position: fixed;
+    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .scroll-top-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   .notice-link {
     display: inline-block;
@@ -323,12 +341,15 @@
 <body>
   <div id="page" class="wrap"></div>
 
+  <button class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="ページの上部へ戻る">↑</button>
+
   <footer class="wrap site-footer">
     <div class="footer-group">
-      <p class="footer-label">SixTONES楽曲データベース SNS</p>
+      <p class="footer-label">SixTONES楽曲データベース</p>
       <div class="footer-links">
         <a href="https://x.com/sixtonesmusicdb?s=21" target="_blank" rel="noopener">X (Twitter)</a>
         <a href="https://bsky.app/profile/sixtonesmusicdb.bsky.social" target="_blank" rel="noopener">Bluesky</a>
+        <a href="https://sixtones-music-db.notion.site/SixTONES-Music-Database-1fd9a5e18032800bb89ae162ba7ea1d0?source=copy_link" target="_blank" rel="noopener">Notion版</a>
       </div>
     </div>
     <div class="footer-group">
@@ -486,10 +507,25 @@
     return null;
   }
 
+  function renderYoutubeEmbeds(youtubeArr) {
+    return (youtubeArr || []).map(function (y) {
+      const videoId = extractYoutubeId(y.url);
+      const head = '<div class="yt-embed-head"><span class="yt-embed-title">' + (y.title || 'YouTube') + '</span>' +
+        '<span class="yt-tag">' + (y.tag || []).join('・') + '</span></div>';
+      if (videoId) {
+        return '<div class="yt-embed">' + head +
+          '<div class="yt-embed-frame"><iframe src="https://www.youtube.com/embed/' + videoId + '" title="' + (y.title || 'YouTube') + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>' +
+        '</div>';
+      }
+      // 動画IDが取れなかった場合はリンクだけにフォールバック
+      return '<div class="yt-embed">' + head + '<a href="' + y.url + '" target="_blank" rel="noopener">▶︎ 動画を開く</a></div>';
+    }).join('');
+  }
+
   function shareButton(title) {
     const text = enc(title + ' | ' + SITE_TITLE);
     const url = enc(location.href);
-    return '<a class="share" href="https://twitter.com/intent/tweet?text=' + text + '&url=' + url + '" target="_blank" rel="noopener">Share on X</a>';
+    return '<a class="share" href="https://twitter.com/intent/tweet?text=' + text + '&url=' + url + '&hashtags=SixTONESmusicdb" target="_blank" rel="noopener">Share on X</a>';
   }
 
   function tieupNames(song) {
@@ -659,12 +695,7 @@
     const bodyHtml = live && live.bodyText
       ? '<div class="detail-section"><div class="detail-value" style="white-space:pre-line">' + live.bodyText + '</div></div>'
       : '';
-    const ytList = live && live.youtube && live.youtube.length
-      ? live.youtube.map(function (y) {
-          return '<div class="yt-item"><a href="' + y.url + '" target="_blank" rel="noopener">' + (y.title || 'YouTube') + '</a>' +
-            '<span class="yt-tag">' + (y.tag || []).join('・') + '</span></div>';
-        }).join('')
-      : '';
+    const ytList = renderYoutubeEmbeds(live && live.youtube);
 
     page.innerHTML = '' +
       '<header>' +
@@ -688,6 +719,13 @@
 
   // ---------- rendering: disc page (grouped by disc type) ----------
 
+  function discTypePriority(type) {
+    if (type.indexOf('形態共通') !== -1) return 0;
+    if (type.indexOf('初回') !== -1) return 1;
+    if (type.indexOf('通常盤') !== -1) return 2;
+    return 3;
+  }
+
   function renderDisc(name) {
     const page = document.getElementById('page');
     const songs = allSongs
@@ -708,6 +746,11 @@
       } else {
         noType.push(song);
       }
+    });
+
+    order.sort(function (a, b) {
+      const diff = discTypePriority(a) - discTypePriority(b);
+      return diff !== 0 ? diff : a.localeCompare(b);
     });
 
     const metaBits = [];
@@ -770,18 +813,7 @@
     if (song.spotify) streamLinks.push('<a class="spotify" href="' + song.spotify + '" target="_blank" rel="noopener">▶︎ Spotify</a>');
     if (song.apple) streamLinks.push('<a class="apple" href="' + song.apple + '" target="_blank" rel="noopener">▶︎ Apple Music</a>');
 
-    const ytList = (song.youtube || []).map(function (y) {
-      const videoId = extractYoutubeId(y.url);
-      const head = '<div class="yt-embed-head"><span class="yt-embed-title">' + (y.title || 'YouTube') + '</span>' +
-        '<span class="yt-tag">' + (y.tag || []).join('・') + '</span></div>';
-      if (videoId) {
-        return '<div class="yt-embed">' + head +
-          '<div class="yt-embed-frame"><iframe src="https://www.youtube.com/embed/' + videoId + '" title="' + (y.title || 'YouTube') + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>' +
-        '</div>';
-      }
-      // 動画IDが取れなかった場合はリンクだけにフォールバック
-      return '<div class="yt-embed">' + head + '<a href="' + y.url + '" target="_blank" rel="noopener">▶︎ 動画を開く</a></div>';
-    }).join('');
+    const ytList = renderYoutubeEmbeds(song.youtube);
 
     page.innerHTML = '' +
       '<header>' +
