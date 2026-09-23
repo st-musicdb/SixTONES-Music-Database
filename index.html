@@ -443,6 +443,7 @@
   let allLives = [];
   let liveByName = {};
   let discByName = {};
+  let allYoutube = [];
   const SITE_TITLE = 'SixTONES楽曲データベース';
 
   const MEMBER_STYLE = {
@@ -1226,23 +1227,18 @@
       '</div></main>';
   }
 
-  function renderYoutubeCategory(catId) {
+  function renderYoutubeCategory(catId, params) {
     const cat = YOUTUBE_CATEGORIES.find(function (c) { return c.id === catId; }) || YOUTUBE_CATEGORIES[0];
-    const seen = {};
-    const videos = [];
+    const sort = (params && params.get('sort')) || 'desc';
 
-    function collect(y) {
-      if (y.tag && y.tag.indexOf(cat.tag) !== -1) {
-        const key = extractYoutubeId(y.url) || y.url;
-        if (key && !seen[key]) {
-          seen[key] = true;
-          videos.push(y);
-        }
-      }
-    }
-
-    allSongs.forEach(function (song) { (song.youtube || []).forEach(collect); });
-    allLives.forEach(function (live) { (live.youtube || []).forEach(collect); });
+    const videos = allYoutube
+      .filter(function (y) { return y.tag && y.tag.indexOf(cat.tag) !== -1; })
+      .sort(function (a, b) {
+        const av = a.publishedAt || a.createdTime || '';
+        const bv = b.publishedAt || b.createdTime || '';
+        const diff = av.localeCompare(bv);
+        return sort === 'asc' ? diff : -diff;
+      });
 
     const page = document.getElementById('page');
     page.innerHTML = '' +
@@ -1253,6 +1249,7 @@
         '<div class="tabs">' + YOUTUBE_CATEGORIES.map(function (c) {
           return '<a class="tab-btn' + (c.id === cat.id ? ' active' : '') + '" href="#/youtube/' + c.id + '">' + c.label + '</a>';
         }).join('') + '</div>' +
+        '<button class="sort-btn" id="yt-sort-toggle" style="margin-top:12px;">' + (sort === 'asc' ? '投稿が古い順' : '投稿が新しい順') + ' ▾</button>' +
       '</header>' +
       '<main>' + (videos.length
         ? '<div class="yt-grid">' + videos.map(function (y) {
@@ -1265,6 +1262,10 @@
           }).join('') + '</div>'
         : '<div class="empty">見つかりません</div>') +
       '</main>';
+
+    document.getElementById('yt-sort-toggle').addEventListener('click', function () {
+      updateQuery('/youtube/' + cat.id + '?sort=' + (sort === 'asc' ? 'desc' : 'asc'));
+    });
   }
 
   // ---------- router ----------
@@ -1289,7 +1290,7 @@
     if (parts[0] === 'discs') { renderDiscsIndex(parsed.params); return; }
     if (parts[0] === 'lives') { renderLivesIndex(parsed.params); return; }
     if (parts[0] === 'members') { renderMembersIndex(); return; }
-    if (parts[0] === 'youtube' && parts[1]) { renderYoutubeCategory(parts[1]); return; }
+    if (parts[0] === 'youtube' && parts[1]) { renderYoutubeCategory(parts[1], parsed.params); return; }
     if (parts[0] === 'credits' && parts[1] && CREDIT_GROUPS[parts[1]]) {
       const g = CREDIT_GROUPS[parts[1]];
       renderCreditIndex(g.title, g.roles, parsed.params, '/credits/' + parts[1]);
@@ -1317,6 +1318,11 @@
     .then(function (discs) {
       discByName = {};
       discs.forEach(function (d) { discByName[d.name] = d; });
+
+      return fetch('youtube.json').then(function (res) { return res.json(); }).catch(function () { return []; });
+    })
+    .then(function (youtube) {
+      allYoutube = youtube;
 
       window.addEventListener('hashchange', route);
       route();
