@@ -96,6 +96,17 @@
     padding-top: 18px;
   }
 
+  .video-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    padding-top: 12px;
+    font-size:14px;
+    color: var(--text-muted);
+  }
+  .video-filter-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+  .video-filter-row input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+
   .search-box {
     flex: 1;
     display: flex;
@@ -172,6 +183,17 @@
   .entry:hover { background-color: var(--surface-hover); }
 
   .title-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .title-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
+
+  .junior-badge {
+    font-family: 'M PLUS 1p', monospace;
+    font-size:12.5px;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
 
   .title-link {
     font-weight: 700;
@@ -542,6 +564,7 @@
     const metaLine = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
     const tieupLine = tieupNames(song);
     const badgeLine = soloUnitLine(song);
+    const isJunior = song.tag && song.tag.indexOf('ジュニア') !== -1;
 
     const creditRows = [];
     const musicLinks = joinLinks(song.music, personLink);
@@ -558,7 +581,8 @@
     return '' +
       '<div class="entry">' +
         '<div class="title-row">' +
-          '<a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' +
+          '<span class="title-group"><a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' +
+          (isJunior ? '<span class="junior-badge">ジュニア</span>' : '') + '</span>' +
           (streamLinks.length ? '<div class="stream-links">' + streamLinks.join('') + '</div>' : '') +
         '</div>' +
         (badgeLine ? '<div class="badge-row">' + badgeLine + '</div>' : '') +
@@ -567,6 +591,10 @@
         (creditRows.length ? '<div class="credits">' + creditRows.join(' / ') + '</div>' : '') +
         (ytButtons.length ? '<div class="links">' + ytButtons.join('') + '</div>' : '') +
       '</div>';
+  }
+
+  function songHasVideoTag(song, tag) {
+    return (song.youtube || []).some(function (y) { return y.tag && y.tag.indexOf(tag) !== -1; });
   }
 
   // ---------- rendering: list ----------
@@ -608,6 +636,10 @@
           '<div class="search-box"><span class="search-icon">🔍</span><input type="text" id="search" placeholder="曲名・作家名で検索…" autocomplete="off"></div>' +
           '<button class="sort-btn" id="sort-toggle">' + (sort === 'asc' ? '古い順' : '新しい順') + ' ▾</button>' +
         '</div>' +
+        '<div class="video-filter-row">' +
+          '<label><input type="checkbox" id="filter-performance"> Performance動画のある曲に絞る</label>' +
+          '<label><input type="checkbox" id="filter-mv"> Music Videoのある曲に絞る</label>' +
+        '</div>' +
       '</header>' +
       '<p class="count" id="count"></p>' +
       '<main id="list"></main>';
@@ -634,22 +666,40 @@
       list.innerHTML = songs.map(function (s) { return renderListEntry(s); }).join('');
     }
 
+    function applyFilters() {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const wantPerformance = document.getElementById('filter-performance').checked;
+      const wantMV = document.getElementById('filter-mv').checked;
+
+      let result = tabbed;
+
+      if (wantPerformance) {
+        result = result.filter(function (song) { return songHasVideoTag(song, 'Performance'); });
+      }
+      if (wantMV) {
+        result = result.filter(function (song) { return songHasVideoTag(song, 'Music Video'); });
+      }
+      if (q) {
+        result = result.filter(function (song) {
+          const hay = [
+            song.title,
+            joinPlain(song.music),
+            joinPlain(song.lyrics),
+            joinPlain(song.arrangement),
+            joinPlain(song.disc)
+          ].filter(Boolean).join(' ').toLowerCase();
+          return hay.indexOf(q) !== -1;
+        });
+      }
+
+      draw(result);
+    }
+
     draw(tabbed);
 
-    document.getElementById('search').addEventListener('input', function (e) {
-      const q = e.target.value.trim().toLowerCase();
-      if (!q) { draw(tabbed); return; }
-      draw(tabbed.filter(function (song) {
-        const hay = [
-          song.title,
-          joinPlain(song.music),
-          joinPlain(song.lyrics),
-          joinPlain(song.arrangement),
-          joinPlain(song.disc)
-        ].filter(Boolean).join(' ').toLowerCase();
-        return hay.indexOf(q) !== -1;
-      }));
-    });
+    document.getElementById('search').addEventListener('input', applyFilters);
+    document.getElementById('filter-performance').addEventListener('change', applyFilters);
+    document.getElementById('filter-mv').addEventListener('change', applyFilters);
   }
 
   // ---------- rendering: simple filtered list (tag / live) ----------
@@ -818,7 +868,9 @@
     page.innerHTML = '' +
       '<header>' +
         backLink() +
-        '<div class="title-row"><h1>' + song.title + '</h1><div class="stream-links">' + shareButton(song.title) + '</div></div>' +
+        '<div class="title-row"><span class="title-group"><h1 style="margin:0">' + song.title + '</h1>' +
+          (song.tag && song.tag.indexOf('ジュニア') !== -1 ? '<span class="junior-badge">ジュニア</span>' : '') +
+          '</span><div class="stream-links">' + shareButton(song.title) + '</div></div>' +
         (metaLine ? '<p class="desc">' + metaLine + '</p>' : '') +
         (tieupLine ? '<p class="desc tieup">' + tieupLine + '</p>' : '') +
         (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
