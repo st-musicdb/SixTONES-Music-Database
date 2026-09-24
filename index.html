@@ -316,7 +316,8 @@
   .ml-info { display: flex; flex-direction: column; gap: 4px; }
   .ml-info a { font-weight: 700; text-decoration: none; }
   .ml-info a:hover { color: var(--accent); }
-  .ml-delete {
+  .ml-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .ml-delete, .ml-edit {
     font-family: 'M PLUS 1p', monospace;
     font-size:12.5px;
     border: 1px solid var(--border);
@@ -327,7 +328,7 @@
     cursor: pointer;
     flex-shrink: 0;
   }
-  .ml-delete:hover { color: var(--accent); border-color: var(--accent); }
+  .ml-delete:hover, .ml-edit:hover { color: var(--accent); border-color: var(--accent); }
 
   .nav-label { font-family: 'M PLUS 1p', monospace; font-size:12.5px; letter-spacing: 0.06em; color: var(--text-muted); margin: 22px 0 8px; }
   .nav-label-index { color: var(--slate); }
@@ -504,6 +505,24 @@
   .notice-list { margin: 0; padding-left: 20px; color: #e0b23c; font-size:15px; line-height: 2; }
   .notice-list li { margin-bottom: 4px; }
 
+  header p.desc.notice-inline { color: #e0b23c; }
+
+  .header-toggle {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: var(--slate);
+    font-family: 'M PLUS 1p', monospace;
+    font-size:13px;
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    cursor: pointer;
+    padding: 0;
+    margin: 2px 0 12px;
+  }
+  .header-toggle:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  .header-more { margin-bottom: 8px; }
+
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
       --bg: #f4f2ee;
@@ -520,7 +539,7 @@
   <div id="page" class="wrap"></div>
 
   <button class="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="ページの上部へ戻る">↑</button>
-  <a id="mylist-indicator" class="mylist-indicator" href="#/mylist">📝 マイリスト (0)</a>
+  <a id="mylist-indicator" class="mylist-indicator" href="#/mylist">📝 作成中のマイリスト (0)</a>
 
   <footer class="wrap site-footer">
     <div class="footer-group">
@@ -701,12 +720,32 @@
     setSavedMylists(getSavedMylists().filter(function (l) { return l.id !== id; }));
   }
 
+  function updateSavedMylist(id, title, by, songKeys) {
+    const lists = getSavedMylists();
+    const item = lists.find(function (l) { return l.id === id; });
+    if (!item) return;
+    item.title = title;
+    item.by = by;
+    item.songs = songKeys;
+    item.savedAt = new Date().toISOString();
+    setSavedMylists(lists);
+  }
+
   function mylistShareHash(list) {
     const qs = new URLSearchParams();
     qs.set('title', list.title);
     qs.set('by', list.by);
     qs.set('songs', list.songs.join(','));
     return '/share?' + qs.toString();
+  }
+
+  function getEditingMylistId() { return localStorage.getItem('editingMylistId') || null; }
+  function clearEditingMylist() { try { localStorage.removeItem('editingMylistId'); } catch (e) {} }
+  function startEditingMylist(list) {
+    setMylistDraft(list.songs.slice());
+    localStorage.setItem('mylistTitle', list.title);
+    localStorage.setItem('mylistCreator', list.by);
+    localStorage.setItem('editingMylistId', list.id);
   }
 
   function findSongByKey(key) {
@@ -719,7 +758,7 @@
     const count = getMylistDraft().length;
     if (!count) { el.style.display = 'none'; return; }
     el.style.display = 'inline-block';
-    el.textContent = '📝 マイリスト (' + count + ')';
+    el.textContent = '📝 作成中のマイリスト (' + count + ')';
   }
 
   function favMylistButtons(song) {
@@ -912,10 +951,16 @@
       '<header>' +
         '<p class="kicker">SixTONES / DISCOGRAPHY ARCHIVE</p>' +
         '<div class="title-row"><h1>' + SITE_TITLE + '</h1><div class="stream-links">' + shareButton(SITE_TITLE) + '</div></div>' +
-        '<p class="desc">SixTONES楽曲に携わる作家・演奏家・MV監督・コレオグラファー・公式YouTube等の情報を集約したファンサイト</p>' +
-        '<p class="desc">SixTONES：6人組男性アイドルグループ。2015年5月1日結成、2020年1月22日｢<a href="#/disc/' + enc('Imitation Rain') + '">Imitation Rain</a>｣でデビュー。メンバーはジェシー・京本大我・松村北斗・髙地優吾・森本慎太郎・田中樹。</p>' +
-        '<div class="quick-links">' +
-          '<a class="notice-link" href="#/notice">⚠️ 注意事項</a>' +
+        '<p class="desc">SixTONES楽曲に携わる作家・演奏家・MV監督・コレオグラファー・公式YouTube等の情報を集約したファンサイト。</p>' +
+        '<p class="desc notice-inline">⚠️SixTONESおよび関連企業、権利者の方々とは一切関係がありません。個人による運営のため、誤りがある可能性があります。</p>' +
+        '<button class="header-toggle" id="header-toggle">もっと見る ▾</button>' +
+        '<div class="header-more" id="header-more" style="display:none;">' +
+          '<p class="desc">SixTONES：6人組男性アイドルグループ。2015年5月1日結成、2020年1月22日｢<a href="#/disc/' + enc('Imitation Rain') + '">Imitation Rain</a>｣でデビュー。メンバーはジェシー・京本大我・松村北斗・髙地優吾・森本慎太郎・田中樹。</p>' +
+          '<ul class="notice-list">' +
+            '<li>情報の正確性には注意を払っていますが、完全ではありません。</li>' +
+            '<li>当データベースの掲載内容によって不利益や損害等が生じた場合も一切の責任を負いかねます。</li>' +
+            '<li>SixTONESのCDクレジットは基本的に英表記のため、一部日本語表記に変更しています。</li>' +
+          '</ul>' +
         '</div>' +
         '<p class="nav-label nav-label-index">INDEX</p>' +
         '<nav class="site-nav nav-index">' +
@@ -956,6 +1001,13 @@
         '</div>' +
       '</div>' +
       '<main id="list"></main>';
+
+    document.getElementById('header-toggle').addEventListener('click', function () {
+      const more = document.getElementById('header-more');
+      const hidden = more.style.display === 'none';
+      more.style.display = hidden ? 'block' : 'none';
+      this.textContent = hidden ? '閉じる ▴' : 'もっと見る ▾';
+    });
 
     document.getElementById('sort-toggle').addEventListener('click', function () {
       const memberQuery = tab === 'unit-solo' ? '&member=' + enc(member) : '';
@@ -1247,30 +1299,6 @@
       '</main>';
   }
 
-  // ---------- rendering: notice page ----------
-
-  const NOTICE_ITEMS = [
-    'ファン個人による運営です。',
-    '情報の正確性には注意を払っていますが、完全ではありません。',
-    'SixTONES自身はもちろん、関連企業とも関係ありません。',
-    '当データベースの掲載内容によって不利益や損害等が生じた場合も一切の責任を負いかねます。',
-    'SixTONESのCDクレジットは基本的に英表記のため、一部日本語表記に変更しています。'
-  ];
-
-  function renderNotice() {
-    const page = document.getElementById('page');
-    page.innerHTML = '' +
-      '<header>' +
-        backLink() +
-        '<h1>⚠️ 注意</h1>' +
-      '</header>' +
-      '<main>' +
-        '<div class="notice-box">' +
-          '<ul class="notice-list">' + NOTICE_ITEMS.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul>' +
-        '</div>' +
-      '</main>';
-  }
-
   // ---------- rendering: index pages (Disc / Live / Member / credit roles) ----------
 
   function renderIndexPage(title, list, routePrefix, opts) {
@@ -1505,13 +1533,17 @@
     const draft = getMylistDraft();
     const savedTitle = localStorage.getItem('mylistTitle') || '';
     const savedCreator = localStorage.getItem('mylistCreator') || '';
+    const editingId = getEditingMylistId();
 
     page.innerHTML = '' +
       '<header>' +
         backLink() +
-        '<h1>マイリストを作る</h1>' +
+        '<h1>' + (editingId ? 'マイリストを編集' : 'マイリストを作る') + '</h1>' +
         '<p class="desc">曲一覧の「+ リスト」ボタンで曲を追加できます。曲数の下限・上限はありません。</p>' +
-        '<a class="notice-link" href="#/mylists">💾 保存したマイリストを見る</a>' +
+        '<div class="quick-links-inline">' +
+          '<a class="notice-link" href="#/mylists">💾 保存したマイリストを見る</a>' +
+          (editingId ? '<a class="notice-link" href="javascript:void(0)" id="mylist-cancel-edit">編集をキャンセル</a>' : '') +
+        '</div>' +
       '</header>' +
       '<main>' +
         '<div class="detail-section">' +
@@ -1539,7 +1571,7 @@
               }).join('') + '</ul>'
             : '<div class="empty">まだ曲が選ばれていません<span class="mono">曲一覧のページから「+ リスト」ボタンで追加してください</span></div>') +
         '</div>' +
-        '<button class="sort-btn" id="mylist-create" style="margin-top:10px;padding:10px 16px;font-size:14px;"' + (draft.length ? '' : ' disabled') + '>共有リンクを作成 ▸</button>' +
+        '<button class="sort-btn" id="mylist-create" style="margin-top:10px;padding:10px 16px;font-size:14px;"' + (draft.length ? '' : ' disabled') + '>' + (editingId ? '更新する' : 'マイリストを保存') + ' ▸</button>' +
       '</main>';
 
     document.getElementById('mylist-title').addEventListener('input', function (e) {
@@ -1548,6 +1580,18 @@
     document.getElementById('mylist-creator').addEventListener('input', function (e) {
       localStorage.setItem('mylistCreator', e.target.value);
     });
+
+    const cancelBtn = document.getElementById('mylist-cancel-edit');
+    if (cancelBtn) {
+      cancelBtn.addEventListener('click', function () {
+        clearEditingMylist();
+        setMylistDraft([]);
+        localStorage.setItem('mylistTitle', '');
+        localStorage.setItem('mylistCreator', '');
+        updateMylistIndicator();
+        renderMylistEditor();
+      });
+    }
 
     const list = document.getElementById('mylist-order-list');
     if (list) {
@@ -1572,7 +1616,19 @@
         if (!songs.length) return;
         const title = document.getElementById('mylist-title').value || '無題のマイリスト';
         const by = document.getElementById('mylist-creator').value || '';
-        saveMylist(title, by, songs, true);
+
+        if (editingId) {
+          updateSavedMylist(editingId, title, by, songs);
+        } else {
+          saveMylist(title, by, songs, true);
+        }
+
+        clearEditingMylist();
+        setMylistDraft([]);
+        localStorage.setItem('mylistTitle', '');
+        localStorage.setItem('mylistCreator', '');
+        updateMylistIndicator();
+
         const qs = new URLSearchParams();
         qs.set('title', title);
         qs.set('by', by);
@@ -1619,13 +1675,16 @@
     const mine = lists.filter(function (l) { return l.mine; });
     const others = lists.filter(function (l) { return !l.mine; });
 
-    function cards(arr) {
+    function cards(arr, editable) {
       if (!arr.length) return '<div class="empty">まだありません</div>';
       return '<ul class="index-list">' + arr.map(function (l) {
         return '<li>' +
           '<span class="ml-info"><a href="#' + mylistShareHash(l) + '">' + l.title + '</a>' +
             '<span class="index-count">' + l.songs.length + '曲' + (l.by ? ' ・ ' + l.by : '') + '</span></span>' +
-          '<button class="ml-delete" data-id="' + escAttr(l.id) + '">✕</button>' +
+          '<span class="ml-actions">' +
+            (editable ? '<button class="ml-edit" data-id="' + escAttr(l.id) + '">✏️ 編集</button>' : '') +
+            '<button class="ml-delete" data-id="' + escAttr(l.id) + '">✕</button>' +
+          '</span>' +
         '</li>';
       }).join('') + '</ul>';
     }
@@ -1639,13 +1698,25 @@
       '<main>' +
         '<div class="role-group">' +
           '<p class="role-title">自分のマイリスト</p>' +
-          cards(mine) +
+          cards(mine, true) +
         '</div>' +
         '<div class="role-group">' +
           '<p class="role-title">保存したマイリスト</p>' +
-          cards(others) +
+          cards(others, false) +
         '</div>' +
       '</main>';
+
+    page.querySelectorAll('.ml-edit').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const id = btn.getAttribute('data-id');
+        const target = getSavedMylists().find(function (l) { return l.id === id; });
+        if (!target) return;
+        startEditingMylist(target);
+        updateMylistIndicator();
+        location.hash = '/mylist';
+      });
+    });
 
     page.querySelectorAll('.ml-delete').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
@@ -1674,7 +1745,6 @@
     if (parts[0] === 'disc' && parts[1]) { renderDisc(dec(parts[1])); return; }
     if (parts[0] === 'tag' && parts[1]) { renderTag(dec(parts[1])); return; }
     if (parts[0] === 'live' && parts[1]) { renderLive(dec(parts[1])); return; }
-    if (parts[0] === 'notice') { renderNotice(); return; }
     if (parts[0] === 'discs') { renderDiscsIndex(parsed.params); return; }
     if (parts[0] === 'lives') { renderLivesIndex(parsed.params); return; }
     if (parts[0] === 'members') { renderMembersIndex(); return; }
