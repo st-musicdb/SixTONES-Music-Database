@@ -313,6 +313,22 @@
   .index-list a:hover { color: var(--accent); }
   .index-count { font-family: 'M PLUS 1p', monospace; font-size:13.5px; color: var(--text-muted); }
 
+  .ml-info { display: flex; flex-direction: column; gap: 4px; }
+  .ml-info a { font-weight: 700; text-decoration: none; }
+  .ml-info a:hover { color: var(--accent); }
+  .ml-delete {
+    font-family: 'M PLUS 1p', monospace;
+    font-size:12.5px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: none;
+    color: var(--text-muted);
+    padding: 3px 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .ml-delete:hover { color: var(--accent); border-color: var(--accent); }
+
   .nav-label { font-family: 'M PLUS 1p', monospace; font-size:12.5px; letter-spacing: 0.06em; color: var(--text-muted); margin: 22px 0 8px; }
   .nav-label-index { color: var(--slate); }
   .nav-label-credit { color: var(--accent); }
@@ -656,6 +672,43 @@
     setMylistDraft(draft);
   }
 
+  // ---------- 保存済みマイリスト（複数保持） ----------
+
+  function getSavedMylists() { return readJsonLS('savedMylists'); }
+  function setSavedMylists(arr) { writeJsonLS('savedMylists', arr); }
+
+  function findSavedMylist(title, by, songKeys) {
+    const key = songKeys.join(',');
+    return getSavedMylists().find(function (l) {
+      return l.title === title && l.by === by && l.songs.join(',') === key;
+    });
+  }
+
+  function saveMylist(title, by, songKeys, mine) {
+    const lists = getSavedMylists();
+    lists.push({
+      id: Date.now() + '-' + Math.random().toString(36).slice(2),
+      title: title,
+      by: by,
+      songs: songKeys,
+      mine: !!mine,
+      savedAt: new Date().toISOString(),
+    });
+    setSavedMylists(lists);
+  }
+
+  function deleteSavedMylist(id) {
+    setSavedMylists(getSavedMylists().filter(function (l) { return l.id !== id; }));
+  }
+
+  function mylistShareHash(list) {
+    const qs = new URLSearchParams();
+    qs.set('title', list.title);
+    qs.set('by', list.by);
+    qs.set('songs', list.songs.join(','));
+    return '/share?' + qs.toString();
+  }
+
   function findSongByKey(key) {
     return songById[key] || allSongs.find(function (s) { return s.title === key; });
   }
@@ -768,6 +821,16 @@
     const text = enc(title + ' | ' + SITE_TITLE);
     const url = enc(location.href);
     return '<a class="share" href="https://twitter.com/intent/tweet?text=' + text + '&url=' + url + '&hashtags=SixTONESmusicdb" target="_blank" rel="noopener">Share on X</a>';
+  }
+
+  function mylistShareButton(title, songs) {
+    const names = songs.slice(0, 3).map(function (s) { return s.title; }).join('／');
+    const suffix = songs.length > 3 ? 'など' : '';
+    const text = title + 'を作成しました！ぜひ聴いてみてね↓\n' +
+      names + suffix + '\n\n' +
+      '#SixTONES楽曲マイリスト\n';
+    const url = enc(location.href);
+    return '<a class="share" href="https://twitter.com/intent/tweet?text=' + enc(text) + '&url=' + url + '" target="_blank" rel="noopener">Share on X</a>';
   }
 
   function tieupNames(song) {
@@ -889,6 +952,7 @@
         '<div class="quick-links-inline">' +
           '<a class="notice-link" href="#/favorites">★ お気に入り</a>' +
           '<a class="notice-link" href="#/mylist">📝 マイリストを作る</a>' +
+          '<a class="notice-link" href="#/mylists">💾 保存済み</a>' +
         '</div>' +
       '</div>' +
       '<main id="list"></main>';
@@ -1447,6 +1511,7 @@
         backLink() +
         '<h1>マイリストを作る</h1>' +
         '<p class="desc">曲一覧の「+ リスト」ボタンで曲を追加できます。曲数の下限・上限はありません。</p>' +
+        '<a class="notice-link" href="#/mylists">💾 保存したマイリストを見る</a>' +
       '</header>' +
       '<main>' +
         '<div class="detail-section">' +
@@ -1503,11 +1568,15 @@
     const createBtn = document.getElementById('mylist-create');
     if (createBtn) {
       createBtn.addEventListener('click', function () {
-        if (!getMylistDraft().length) return;
+        const songs = getMylistDraft();
+        if (!songs.length) return;
+        const title = document.getElementById('mylist-title').value || '無題のマイリスト';
+        const by = document.getElementById('mylist-creator').value || '';
+        saveMylist(title, by, songs, true);
         const qs = new URLSearchParams();
-        qs.set('title', document.getElementById('mylist-title').value || '無題のマイリスト');
-        qs.set('by', document.getElementById('mylist-creator').value || '');
-        qs.set('songs', getMylistDraft().join(','));
+        qs.set('title', title);
+        qs.set('by', by);
+        qs.set('songs', songs.join(','));
         location.hash = '/share?' + qs.toString();
       });
     }
@@ -1518,20 +1587,73 @@
     const by = params.get('by') || '';
     const songKeys = (params.get('songs') || '').split(',').filter(Boolean);
     const songs = songKeys.map(findSongByKey).filter(Boolean);
-    const shareText = title + (by ? '（作成：' + by + '）' : '') + ' - ' + songs.map(function (s) { return s.title; }).join('・');
+    const already = findSavedMylist(title, by, songKeys);
 
     const page = document.getElementById('page');
     page.innerHTML = '' +
       '<header>' +
         backLink() +
-        '<div class="title-row"><h1>' + title + '</h1><div class="stream-links">' + shareButton(shareText) + '</div></div>' +
+        '<div class="title-row"><h1>' + title + '</h1><div class="stream-links">' + mylistShareButton(title, songs) + '</div></div>' +
         (by ? '<p class="desc">作成：' + by + '</p>' : '') +
         '<p class="desc">' + songs.length + '曲</p>' +
+        '<button class="sort-btn" id="save-mylist-btn"' + (already ? ' disabled' : '') + ' style="margin-top:10px;">' + (already ? '✓ 保存済み' : '💾 保存する') + '</button>' +
       '</header>' +
       '<main>' + (songs.length
         ? songs.map(function (s) { return renderListEntry(s); }).join('')
         : '<div class="empty">曲が見つかりません</div>') +
       '</main>';
+
+    const saveBtn = document.getElementById('save-mylist-btn');
+    if (saveBtn && !already) {
+      saveBtn.addEventListener('click', function () {
+        saveMylist(title, by, songKeys, false);
+        saveBtn.textContent = '✓ 保存済み';
+        saveBtn.disabled = true;
+      });
+    }
+  }
+
+  function renderMylistsIndex() {
+    const page = document.getElementById('page');
+    const lists = getSavedMylists().slice().sort(function (a, b) { return (b.savedAt || '').localeCompare(a.savedAt || ''); });
+    const mine = lists.filter(function (l) { return l.mine; });
+    const others = lists.filter(function (l) { return !l.mine; });
+
+    function cards(arr) {
+      if (!arr.length) return '<div class="empty">まだありません</div>';
+      return '<ul class="index-list">' + arr.map(function (l) {
+        return '<li>' +
+          '<span class="ml-info"><a href="#' + mylistShareHash(l) + '">' + l.title + '</a>' +
+            '<span class="index-count">' + l.songs.length + '曲' + (l.by ? ' ・ ' + l.by : '') + '</span></span>' +
+          '<button class="ml-delete" data-id="' + escAttr(l.id) + '">✕</button>' +
+        '</li>';
+      }).join('') + '</ul>';
+    }
+
+    page.innerHTML = '' +
+      '<header>' +
+        backLink() +
+        '<h1>保存したマイリスト</h1>' +
+        '<p class="desc">' + lists.length + '件（このブラウザだけに保存されています）</p>' +
+      '</header>' +
+      '<main>' +
+        '<div class="role-group">' +
+          '<p class="role-title">自分のマイリスト</p>' +
+          cards(mine) +
+        '</div>' +
+        '<div class="role-group">' +
+          '<p class="role-title">保存したマイリスト</p>' +
+          cards(others) +
+        '</div>' +
+      '</main>';
+
+    page.querySelectorAll('.ml-delete').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        deleteSavedMylist(btn.getAttribute('data-id'));
+        renderMylistsIndex();
+      });
+    });
   }
 
   // ---------- router ----------
@@ -1564,6 +1686,7 @@
     }
     if (parts[0] === 'favorites') { renderFavorites(); return; }
     if (parts[0] === 'mylist') { renderMylistEditor(); return; }
+    if (parts[0] === 'mylists') { renderMylistsIndex(); return; }
     if (parts[0] === 'share') { renderShare(parsed.params); return; }
     renderList(parsed.params);
   }
