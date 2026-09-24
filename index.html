@@ -188,6 +188,15 @@
     color: var(--text-muted);
   }
 
+  .count-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+  }
+  .quick-links-inline { display: flex; gap: 16px; padding-top: 14px; }
+
   main { padding: 4px 0 80px; }
 
   .entry {
@@ -397,8 +406,9 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
 
+  .entry-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
+
   .fav-btn, .mylist-btn {
-    font-family: 'M PLUS 1p', monospace;
     font-size:12.5px;
     text-decoration: none;
     border: 1px solid var(--border);
@@ -428,15 +438,23 @@
   .mylist-order-list { list-style: none; margin: 0; padding: 0; }
   .mylist-order-list li {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     padding: 10px 0;
     border-bottom: 1px solid var(--border);
   }
-  .mylist-order-title { font-size:14.5px; }
-  .mylist-order-controls { display: flex; gap: 6px; flex-shrink: 0; }
-  .mylist-order-controls button {
+  .mylist-order-title { font-size:14.5px; flex: 1; min-width: 0; }
+  .mo-position {
+    font-family: 'M PLUS 1p', monospace;
+    font-size:14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--text);
+    padding: 4px 6px;
+    flex-shrink: 0;
+  }
+  .mo-remove {
     font-family: 'M PLUS 1p', monospace;
     font-size:12.5px;
     border: 1px solid var(--border);
@@ -445,9 +463,9 @@
     color: var(--text-muted);
     padding: 3px 8px;
     cursor: pointer;
+    flex-shrink: 0;
   }
-  .mylist-order-controls button:hover { color: var(--accent); border-color: var(--accent); }
-  .mylist-order-controls button:disabled { opacity: 0.3; cursor: default; }
+  .mo-remove:hover { color: var(--accent); border-color: var(--accent); }
 
   .notice-link {
     display: inline-block;
@@ -628,12 +646,13 @@
     if (i === -1) draft.push(key); else draft.splice(i, 1);
     setMylistDraft(draft);
   }
-  function moveMylistItem(key, dir) {
+  function moveMylistItemTo(key, newIndex) {
     const draft = getMylistDraft();
     const i = draft.indexOf(key);
-    const j = i + dir;
-    if (i === -1 || j < 0 || j >= draft.length) return;
-    const tmp = draft[i]; draft[i] = draft[j]; draft[j] = tmp;
+    if (i === -1) return;
+    const clamped = Math.max(0, Math.min(newIndex, draft.length - 1));
+    draft.splice(i, 1);
+    draft.splice(clamped, 0, key);
     setMylistDraft(draft);
   }
 
@@ -784,13 +803,14 @@
         '<div class="title-row">' +
           '<span class="title-group"><a class="title-link" href="' + songLink(song) + '">' + song.title + '</a>' +
           (isJunior ? '<span class="junior-badge">ジュニア</span>' : '') + '</span>' +
-          '<div class="stream-links">' + favMylistButtons(song) + streamLinks.join('') + '</div>' +
+          (streamLinks.length ? '<div class="stream-links">' + streamLinks.join('') + '</div>' : '') +
         '</div>' +
         (badgeLine ? '<div class="badge-row">' + badgeLine + '</div>' : '') +
         (metaLine ? '<div class="meta">' + metaLine + '</div>' : '') +
         (tieupLine ? '<div class="meta tieup">' + tieupLine + '</div>' : '') +
         (creditRows.length ? '<div class="credits">' + creditRows.join(' / ') + '</div>' : '') +
         (ytButtons.length ? '<div class="links">' + ytButtons.join('') + '</div>' : '') +
+        '<div class="entry-actions">' + favMylistButtons(song) + '</div>' +
       '</div>';
   }
 
@@ -833,8 +853,6 @@
         '<p class="desc">SixTONES：6人組男性アイドルグループ。2015年5月1日結成、2020年1月22日｢<a href="#/disc/' + enc('Imitation Rain') + '">Imitation Rain</a>｣でデビュー。メンバーはジェシー・京本大我・松村北斗・髙地優吾・森本慎太郎・田中樹。</p>' +
         '<div class="quick-links">' +
           '<a class="notice-link" href="#/notice">⚠️ 注意事項</a>' +
-          '<a class="notice-link" href="#/favorites">★ お気に入り</a>' +
-          '<a class="notice-link" href="#/mylist">📝 マイリストを作る</a>' +
         '</div>' +
         '<p class="nav-label nav-label-index">INDEX</p>' +
         '<nav class="site-nav nav-index">' +
@@ -866,7 +884,13 @@
           '<label><input type="checkbox" id="filter-mv"> Music Videoのある曲に絞る</label>' +
         '</div>' +
       '</header>' +
-      '<p class="count" id="count"></p>' +
+      '<div class="count-row">' +
+        '<p class="count" id="count"></p>' +
+        '<div class="quick-links-inline">' +
+          '<a class="notice-link" href="#/favorites">★ お気に入り</a>' +
+          '<a class="notice-link" href="#/mylist">📝 マイリストを作る</a>' +
+        '</div>' +
+      '</div>' +
       '<main id="list"></main>';
 
     document.getElementById('sort-toggle').addEventListener('click', function () {
@@ -1091,7 +1115,7 @@
     const metaLine = [song.release, discHtml ? '収録：' + discHtml : null].filter(Boolean).join(' ・ ');
     const tieupLine = tieupNames(song);
 
-    const streamLinks = [favMylistButtons(song)];
+    const streamLinks = [];
     if (song.spotify) streamLinks.push('<a class="spotify" href="' + song.spotify + '" target="_blank" rel="noopener">▶︎ Spotify</a>');
     if (song.apple) streamLinks.push('<a class="apple" href="' + song.apple + '" target="_blank" rel="noopener">▶︎ Apple Music</a>');
 
@@ -1105,7 +1129,7 @@
           '</span><div class="stream-links">' + shareButton(song.title) + '</div></div>' +
         (metaLine ? '<p class="desc">' + metaLine + '</p>' : '') +
         (tieupLine ? '<p class="desc tieup">' + tieupLine + '</p>' : '') +
-        '<div class="links">' + streamLinks.join('') + '</div>' +
+        (streamLinks.length ? '<div class="links">' + streamLinks.join('') + '</div>' : '') +
       '</header>' +
       '<main>' +
         detailRow(ROLE_LABELS.music, joinLinks(song.music, personLink)) +
@@ -1121,6 +1145,7 @@
         detailRow('Tag', entityLinks(song.tag, 'tag')) +
         detailRow('Live', entityLinks(song.live, 'live')) +
         (ytList ? '<div class="detail-section"><p class="detail-label">YouTube (' + song.youtube.length + ')</p>' + ytList + '</div>' : '') +
+        '<div class="entry-actions">' + favMylistButtons(song) + '</div>' +
       '</main>';
   }
 
@@ -1421,7 +1446,7 @@
       '<header>' +
         backLink() +
         '<h1>マイリストを作る</h1>' +
-        '<p class="desc">3曲以上選ぶと共有リンクを作れます（曲数の上限はありません）。曲一覧の「+ リスト」ボタンで追加できます。</p>' +
+        '<p class="desc">曲一覧の「+ リスト」ボタンで曲を追加できます。曲数の下限・上限はありません。</p>' +
       '</header>' +
       '<main>' +
         '<div class="detail-section">' +
@@ -1430,7 +1455,7 @@
         '</div>' +
         '<div class="detail-section">' +
           '<p class="detail-label">作成者名</p>' +
-          '<input type="text" id="mylist-creator" class="mylist-input" placeholder="例：ハルコ" value="' + escAttr(savedCreator) + '">' +
+          '<input type="text" id="mylist-creator" class="mylist-input" placeholder="例：すとーんず" value="' + escAttr(savedCreator) + '">' +
         '</div>' +
         '<div class="detail-section">' +
           '<p class="detail-label">選んだ曲（' + draft.length + '曲）</p>' +
@@ -1438,18 +1463,18 @@
             ? '<ul class="mylist-order-list" id="mylist-order-list">' + draft.map(function (key, i) {
                 const song = findSongByKey(key);
                 const t = song ? song.title : key;
+                const options = draft.map(function (_, n) {
+                  return '<option value="' + (n + 1) + '"' + (n === i ? ' selected' : '') + '>' + (n + 1) + '</option>';
+                }).join('');
                 return '<li data-key="' + escAttr(key) + '">' +
-                  '<span class="mylist-order-title">' + (i + 1) + '. ' + t + '</span>' +
-                  '<span class="mylist-order-controls">' +
-                    '<button class="mo-up" ' + (i === 0 ? 'disabled' : '') + '>▲</button>' +
-                    '<button class="mo-down" ' + (i === draft.length - 1 ? 'disabled' : '') + '>▼</button>' +
-                    '<button class="mo-remove">✕</button>' +
-                  '</span>' +
+                  '<select class="mo-position">' + options + '</select>' +
+                  '<span class="mylist-order-title">' + t + '</span>' +
+                  '<button class="mo-remove">✕</button>' +
                 '</li>';
               }).join('') + '</ul>'
             : '<div class="empty">まだ曲が選ばれていません<span class="mono">曲一覧のページから「+ リスト」ボタンで追加してください</span></div>') +
         '</div>' +
-        '<button class="sort-btn" id="mylist-create" style="margin-top:10px;padding:10px 16px;font-size:14px;"' + (draft.length < 3 ? ' disabled' : '') + '>共有リンクを作成 ▸</button>' +
+        '<button class="sort-btn" id="mylist-create" style="margin-top:10px;padding:10px 16px;font-size:14px;"' + (draft.length ? '' : ' disabled') + '>共有リンクを作成 ▸</button>' +
       '</main>';
 
     document.getElementById('mylist-title').addEventListener('input', function (e) {
@@ -1463,8 +1488,10 @@
     if (list) {
       list.querySelectorAll('li').forEach(function (li) {
         const key = li.getAttribute('data-key');
-        li.querySelector('.mo-up').addEventListener('click', function () { moveMylistItem(key, -1); renderMylistEditor(); });
-        li.querySelector('.mo-down').addEventListener('click', function () { moveMylistItem(key, 1); renderMylistEditor(); });
+        li.querySelector('.mo-position').addEventListener('change', function (e) {
+          moveMylistItemTo(key, parseInt(e.target.value, 10) - 1);
+          renderMylistEditor();
+        });
         li.querySelector('.mo-remove').addEventListener('click', function () {
           toggleMylistDraft(key);
           updateMylistIndicator();
@@ -1476,7 +1503,7 @@
     const createBtn = document.getElementById('mylist-create');
     if (createBtn) {
       createBtn.addEventListener('click', function () {
-        if (getMylistDraft().length < 3) return;
+        if (!getMylistDraft().length) return;
         const qs = new URLSearchParams();
         qs.set('title', document.getElementById('mylist-title').value || '無題のマイリスト');
         qs.set('by', document.getElementById('mylist-creator').value || '');
@@ -1502,10 +1529,7 @@
         '<p class="desc">' + songs.length + '曲</p>' +
       '</header>' +
       '<main>' + (songs.length
-        ? songs.map(function (s, i) {
-            return '<div class="entry"><span class="mono" style="color:var(--slate);margin-right:8px;">' + (i + 1) + '.</span>' +
-              '<a class="title-link" href="' + songLink(s) + '">' + s.title + '</a></div>';
-          }).join('')
+        ? songs.map(function (s) { return renderListEntry(s); }).join('')
         : '<div class="empty">曲が見つかりません</div>') +
       '</main>';
   }
