@@ -128,7 +128,15 @@
     "periodEnd": "2026-06-14",
     "note": "",
     "musicians": [],
-    "youtube": [],
+    "youtube": [
+      {
+        "title": "SixTONES –「Shine with U」from LIVE DVD/BD「MILESixTONES」(2026.3.26 YOKOHAMA ARENA)",
+        "url": "https://www.youtube.com/watch?v=RaveH8rwqoo",
+        "tag": [
+          "Performance"
+        ]
+      }
+    ],
     "files": [
       "https://www.sixtones.jp/assets/images/live/live_milesixtones.jpg"
     ],
