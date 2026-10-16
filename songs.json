@@ -609,6 +609,13 @@
         "tag": [
           "BD/DVD digeST"
         ]
+      },
+      {
+        "title": "SixTONES –「S.I.X」from LIVE DVD/BD「MILESixTONES」(2026.3.26 YOKOHAMA ARENA)",
+        "url": "https://www.youtube.com/watch?v=ifgm1p40dB8",
+        "tag": [
+          "Performance"
+        ]
       }
     ],
     "link": [
@@ -2638,8 +2645,12 @@
       "一秒/Rebellion - 通常盤",
       "スト夏の思い出2026"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-通常盤のみ"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "ストリーミング"
     ],
@@ -2860,8 +2871,12 @@
     "discType": [
       "一秒/Rebellion - 形態共通"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "表題・リード",
       "ストリーミング"
@@ -2948,8 +2963,12 @@
     "discType": [
       "一秒/Rebellion - 形態共通"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "表題・リード",
       "ストリーミング"
@@ -3122,8 +3141,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 初回盤B"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "Cover"
     ],
@@ -3228,8 +3251,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 初回盤B"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "Cover"
     ],
@@ -3276,8 +3303,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 初回盤B"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-通常盤のみ"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "Cover"
     ],
@@ -3320,8 +3351,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 初回盤B"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-通常盤のみ"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "Cover"
     ],
@@ -3372,8 +3407,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 通常盤"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [],
     "tieup": [],
     "solo": [],
@@ -3542,8 +3581,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 通常盤"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [],
     "tieup": [],
     "solo": [],
@@ -3598,8 +3641,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 通常盤"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [],
     "tieup": [],
     "solo": [],
@@ -3704,8 +3751,12 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [],
     "tieup": [
       {
@@ -4056,10 +4107,13 @@
       "Stargaze - 形態共通",
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
-    "bdDvdFormat": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
     "live": [
       "SUMMER SONIC 2025",
-      "CANNON BALL 2025"
+      "CANNON BALL 2025",
+      "MILESixTONES"
     ],
     "tag": [
       "配信SG",
@@ -4803,11 +4857,14 @@
       "BOYZ - 形態共通",
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
-    "bdDvdFormat": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
     "live": [
       "SUMMER SONIC 2025",
       "CANNON BALL 2025",
-      "COUNTDOWN JAPAN 25/26"
+      "COUNTDOWN JAPAN 25/26",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -6200,11 +6257,14 @@
       "バリア - 形態共通",
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
-    "bdDvdFormat": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
     "live": [
       "MTV VMAJ",
       "SUMMER SONIC 2025",
-      "CANNON BALL 2025"
+      "CANNON BALL 2025",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -7911,11 +7971,13 @@
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
     "bdDvdFormat": [
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "MTV Unplugged: SixTONES",
-      "YOUNG OLD"
+      "YOUNG OLD",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -8025,7 +8087,8 @@
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
     "bdDvdFormat": [
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Talking Rock! FES. 2024",
@@ -8034,7 +8097,8 @@
       "SUMMER SONIC 2025",
       "CANNON BALL 2025",
       "YOUNG OLD",
-      "COUNTDOWN JAPAN 25/26"
+      "COUNTDOWN JAPAN 25/26",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -8678,12 +8742,14 @@
     ],
     "bdDvdFormat": [
       "VVS-形態共通",
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "VVS",
       "MTV Unplugged: SixTONES",
-      "YOUNG OLD"
+      "YOUNG OLD",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -9276,10 +9342,12 @@
       "THE VIBES - 初回盤A"
     ],
     "bdDvdFormat": [
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
-      "VVS"
+      "VVS",
+      "MILESixTONES"
     ],
     "tag": [
       "ストリーミング"
@@ -9345,10 +9413,12 @@
       "THE VIBES - 形態共通"
     ],
     "bdDvdFormat": [
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
-      "VVS"
+      "VVS",
+      "MILESixTONES"
     ],
     "tag": [],
     "tieup": [],
@@ -9597,11 +9667,13 @@
     ],
     "bdDvdFormat": [
       "VVS-形態共通",
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "VVS",
-      "YOUNG OLD"
+      "YOUNG OLD",
+      "MILESixTONES"
     ],
     "tag": [],
     "tieup": [],
@@ -10613,8 +10685,12 @@
       "THE VIBES - 形態共通",
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
-    "bdDvdFormat": [],
-    "live": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
+    "live": [
+      "MILESixTONES"
+    ],
     "tag": [
       "表題・リード",
       "ストリーミング"
@@ -11077,7 +11153,8 @@
     ],
     "bdDvdFormat": [
       "VVS-形態共通",
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "VVS",
@@ -11090,7 +11167,8 @@
       "SUMMER SONIC 2025",
       "CANNON BALL 2025",
       "YOUNG OLD",
-      "COUNTDOWN JAPAN 25/26"
+      "COUNTDOWN JAPAN 25/26",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -11766,7 +11844,8 @@
     ],
     "bdDvdFormat": [
       "慣声の法則 in DOME-形態共通",
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "慣声の法則 in DOME",
@@ -11774,7 +11853,8 @@
       "SUMMER SONIC 2025",
       "CANNON BALL 2025",
       "YOUNG OLD",
-      "COUNTDOWN JAPAN 25/26"
+      "COUNTDOWN JAPAN 25/26",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -12590,12 +12670,14 @@
     ],
     "bdDvdFormat": [
       "慣声の法則 in DOME-形態共通",
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "慣声の法則",
       "慣声の法則 in DOME",
-      "VVS"
+      "VVS",
+      "MILESixTONES"
     ],
     "tag": [
       "ストリーミング"
@@ -12999,7 +13081,8 @@
     ],
     "bdDvdFormat": [
       "慣声の法則 in DOME-形態共通",
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "慣声の法則",
@@ -13009,7 +13092,8 @@
       "Talking Rock! FES. 2024",
       "COUNTDOWN JAPAN 24/25",
       "CANNON BALL 2025",
-      "COUNTDOWN JAPAN 25/26"
+      "COUNTDOWN JAPAN 25/26",
+      "MILESixTONES"
     ],
     "tag": [
       "ストリーミング"
@@ -13397,11 +13481,13 @@
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
     "bdDvdFormat": [
-      "慣声の法則 in DOME-形態共通"
+      "慣声の法則 in DOME-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "慣声の法則",
-      "慣声の法則 in DOME"
+      "慣声の法則 in DOME",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -13519,14 +13605,16 @@
     "bdDvdFormat": [
       "慣声の法則 in DOME-形態共通",
       "VVS-形態共通",
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "慣声の法則",
       "慣声の法則 in DOME",
       "VVS",
       "MTV Unplugged: SixTONES",
-      "YOUNG OLD"
+      "YOUNG OLD",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -14130,10 +14218,12 @@
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
     "bdDvdFormat": [
-      "Feel da CITY-初回盤のみ"
+      "Feel da CITY-初回盤のみ",
+      "MILESixTONES-形態共通"
     ],
     "live": [
-      "Feel da CITY"
+      "Feel da CITY",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -14532,11 +14622,13 @@
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
     "bdDvdFormat": [
-      "Feel da CITY-形態共通"
+      "Feel da CITY-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Feel da CITY",
-      "MTV Unplugged: SixTONES"
+      "MTV Unplugged: SixTONES",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -15266,7 +15358,8 @@
       "Feel da CITY-形態共通",
       "慣声の法則 in DOME-形態共通",
       "VVS-形態共通",
-      "YOUNG OLD-形態共通"
+      "YOUNG OLD-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Feel da CITY",
@@ -15280,7 +15373,8 @@
       "SUMMER SONIC 2025",
       "CANNON BALL 2025",
       "YOUNG OLD",
-      "COUNTDOWN JAPAN 25/26"
+      "COUNTDOWN JAPAN 25/26",
+      "MILESixTONES"
     ],
     "tag": [
       "ストリーミング"
@@ -16343,7 +16437,8 @@
     "bdDvdFormat": [
       "Feel da CITY-形態共通",
       "慣声の法則 in DOME-形態共通",
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Feel da CITY",
@@ -16352,7 +16447,8 @@
       "ごぶごぶフェス",
       "Talking Rock! FES. 2024",
       "COUNTDOWN JAPAN 24/25",
-      "MTV Unplugged: SixTONES"
+      "MTV Unplugged: SixTONES",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -16772,13 +16868,15 @@
     ],
     "bdDvdFormat": [
       "VVS-通常盤のみ",
-      "Feel da CITY-形態共通"
+      "Feel da CITY-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "on eST",
       "Feel da CITY",
       "慣声の法則",
-      "VVS"
+      "VVS",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -17499,7 +17597,8 @@
     "bdDvdFormat": [
       "Feel da CITY-形態共通",
       "慣声の法則 in DOME-形態共通",
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "on eST",
@@ -17509,7 +17608,8 @@
       "VVS",
       "ごぶごぶフェス",
       "Talking Rock! FES. 2024",
-      "COUNTDOWN JAPAN 24/25"
+      "COUNTDOWN JAPAN 24/25",
+      "MILESixTONES"
     ],
     "tag": [
       "ストリーミング"
@@ -17537,6 +17637,13 @@
         "url": "https://www.youtube.com/watch?v=pasCGyY8bSI",
         "tag": [
           "CD digeST"
+        ]
+      },
+      {
+        "title": "SixTONES –「S.I.X」from LIVE DVD/BD「MILESixTONES」(2026.3.26 YOKOHAMA ARENA)",
+        "url": "https://www.youtube.com/watch?v=ifgm1p40dB8",
+        "tag": [
+          "Performance"
         ]
       }
     ],
@@ -18173,11 +18280,13 @@
       "MILESixTONES -Best Tracks- - 形態共通"
     ],
     "bdDvdFormat": [
-      "Feel da CITY-形態共通"
+      "Feel da CITY-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "on eST",
-      "Feel da CITY"
+      "Feel da CITY",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -18425,14 +18534,16 @@
     ],
     "bdDvdFormat": [
       "Feel da CITY-形態共通",
-      "慣声の法則 in DOME-形態共通"
+      "慣声の法則 in DOME-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "on eST",
       "Feel da CITY",
       "慣声の法則",
       "慣声の法則 in DOME",
-      "ごぶごぶフェス"
+      "ごぶごぶフェス",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -18552,13 +18663,15 @@
     ],
     "bdDvdFormat": [
       "YOUNG OLD-通常盤のみ",
-      "Feel da CITY-形態共通"
+      "Feel da CITY-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "TrackONE -IMPACT-",
       "on eST",
       "Feel da CITY",
-      "YOUNG OLD"
+      "YOUNG OLD",
+      "MILESixTONES"
     ],
     "tag": [
       "ストリーミング"
@@ -18649,12 +18762,14 @@
       "Imitation Rain - 通常盤"
     ],
     "bdDvdFormat": [
-      "慣声の法則 in DOME-形態共通"
+      "慣声の法則 in DOME-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "TrackONE -IMPACT-",
       "慣声の法則 in DOME",
-      "MTV Unplugged: SixTONES"
+      "MTV Unplugged: SixTONES",
+      "MILESixTONES"
     ],
     "tag": [
       "ストリーミング"
@@ -18748,7 +18863,8 @@
     "bdDvdFormat": [
       "VVS-通常盤のみ",
       "Feel da CITY-形態共通",
-      "慣声の法則 in DOME-形態共通"
+      "慣声の法則 in DOME-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "TrackONE -IMPACT-",
@@ -18759,7 +18875,8 @@
       "VVS",
       "ごぶごぶフェス",
       "MTV Unplugged: SixTONES",
-      "SDGs推進 TGC しずおか 2020 by TOKYO GIRLS COLLECTION"
+      "SDGs推進 TGC しずおか 2020 by TOKYO GIRLS COLLECTION",
+      "MILESixTONES"
     ],
     "tag": [
       "表題・リード",
@@ -18921,7 +19038,8 @@
     ],
     "bdDvdFormat": [
       "慣声の法則 in DOME-形態共通",
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Rough \"xxxxxx”",
@@ -18930,7 +19048,8 @@
       "慣声の法則",
       "慣声の法則 in DOME",
       "VVS",
-      "SDGs推進 TGC しずおか 2020 by TOKYO GIRLS COLLECTION"
+      "SDGs推進 TGC しずおか 2020 by TOKYO GIRLS COLLECTION",
+      "MILESixTONES"
     ],
     "tag": [
       "ジュニア",
@@ -19002,7 +19121,8 @@
     ],
     "bdDvdFormat": [
       "Feel da CITY-形態共通",
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Rough \"xxxxxx”",
@@ -19013,7 +19133,8 @@
       "VVS",
       "CHANGE THE ERA -201ix-",
       "KANSAI COLLECTION 2019SPRING ＆ SUMMER",
-      "SDGs推進 TGC しずおか 2020 by TOKYO GIRLS COLLECTION"
+      "SDGs推進 TGC しずおか 2020 by TOKYO GIRLS COLLECTION",
+      "MILESixTONES"
     ],
     "tag": [
       "ジュニア",
@@ -19169,7 +19290,8 @@
     "bdDvdFormat": [],
     "live": [
       "Rough \"xxxxxx”",
-      "TrackONE -IMPACT-"
+      "TrackONE -IMPACT-",
+      "MILESixTONES"
     ],
     "tag": [
       "ジュニア"
@@ -19389,10 +19511,13 @@
     "discType": [
       "MILESixTONES -Best Tracks- - 初回盤A"
     ],
-    "bdDvdFormat": [],
+    "bdDvdFormat": [
+      "MILESixTONES-形態共通"
+    ],
     "live": [
       "Rough \"xxxxxx”",
-      "CHANGE THE ERA -201ix-"
+      "CHANGE THE ERA -201ix-",
+      "MILESixTONES"
     ],
     "tag": [
       "ジュニア"
@@ -19647,7 +19772,8 @@
       "MILESixTONES -Best Tracks- - 初回盤A"
     ],
     "bdDvdFormat": [
-      "慣声の法則 in DOME-形態共通"
+      "慣声の法則 in DOME-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Rough \"xxxxxx”",
@@ -19655,7 +19781,8 @@
       "慣声の法則 in DOME",
       "CHANGE THE ERA -201ix-",
       "YouTube FanFest Music JAPAN 2018",
-      "KANSAI COLLECTION 2019SPRING ＆ SUMMER"
+      "KANSAI COLLECTION 2019SPRING ＆ SUMMER",
+      "MILESixTONES"
     ],
     "tag": [
       "ジュニア",
@@ -19765,14 +19892,16 @@
       "MILESixTONES -Best Tracks- - 初回盤A"
     ],
     "bdDvdFormat": [
-      "慣声の法則 in DOME-形態共通"
+      "慣声の法則 in DOME-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "TrackONE -IMPACT-",
       "慣声の法則 in DOME",
       "CHANGE THE ERA -201ix-",
       "YouTube FanFest Music JAPAN 2018",
-      "KANSAI COLLECTION 2019SPRING ＆ SUMMER"
+      "KANSAI COLLECTION 2019SPRING ＆ SUMMER",
+      "MILESixTONES"
     ],
     "tag": [
       "ジュニア"
@@ -19937,7 +20066,8 @@
     "bdDvdFormat": [
       "Feel da CITY-形態共通",
       "慣声の法則 in DOME-形態共通",
-      "VVS-形態共通"
+      "VVS-形態共通",
+      "MILESixTONES-形態共通"
     ],
     "live": [
       "Rough \"xxxxxx”",
@@ -19947,7 +20077,8 @@
       "慣声の法則",
       "慣声の法則 in DOME",
       "VVS",
-      "CHANGE THE ERA -201ix-"
+      "CHANGE THE ERA -201ix-",
+      "MILESixTONES"
     ],
     "tag": [
       "ジュニア"
