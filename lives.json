@@ -1,6 +1,6 @@
 [
   {
-    "name": "MILESixTONES-通常盤のみ (1)",
+    "name": "MILESixTONES（スタジアムツアー）-通常盤のみ",
     "category": null,
     "periodStart": null,
     "periodEnd": null,
@@ -13,7 +13,7 @@
     "bodyText": ""
   },
   {
-    "name": "MILESixTONES-形態共通 (1)",
+    "name": "MILESixTONES（スタジアムツアー）-形態共通",
     "category": null,
     "periodStart": null,
     "periodEnd": null,
@@ -38,8 +38,8 @@
     ],
     "parentItem": null,
     "subItems": [
-      "MILESixTONES-形態共通 (1)",
-      "MILESixTONES-通常盤のみ (1)"
+      "MILESixTONES（スタジアムツアー）-形態共通",
+      "MILESixTONES（スタジアムツアー）-通常盤のみ"
     ],
     "bodyText": ""
   },
@@ -139,6 +139,34 @@
       {
         "title": "SixTONES –「Battery」from LIVE DVD/BD「MILESixTONES」(2026.3.26 YOKOHAMA ARENA)",
         "url": "https://www.youtube.com/watch?v=W6abYxqfCPU",
+        "tag": [
+          "Performance"
+        ]
+      },
+      {
+        "title": "SixTONES –「S.I.X」from LIVE DVD/BD「MILESixTONES」(2026.3.26 YOKOHAMA ARENA)",
+        "url": "https://www.youtube.com/watch?v=ifgm1p40dB8",
+        "tag": [
+          "Performance"
+        ]
+      },
+      {
+        "title": "SixTONES – 「Stargaze」from LIVE DVD/BD「MILESixTONES」(2026.3.26 YOKOHAMA ARENA)",
+        "url": "https://www.youtube.com/watch?v=yGnjx6PPMZw",
+        "tag": [
+          "Performance"
+        ]
+      },
+      {
+        "title": "SixTONES –「Rebellion」from LIVE TOUR 2026「MILESixTONES」LaLa arena TOKYO-BAY",
+        "url": "https://www.youtube.com/watch?v=IBUAe3v9gjY",
+        "tag": [
+          "Performance"
+        ]
+      },
+      {
+        "title": "SixTONES –「一秒」from LIVE TOUR 2026「MILESixTONES」LaLa arena TOKYO-BAY",
+        "url": "https://www.youtube.com/watch?v=IpJtFH90Qvc",
         "tag": [
           "Performance"
         ]
@@ -347,6 +375,27 @@
       {
         "title": "SixTONES –「バリア」from 「YOUNG OLD」2025.02.22 KYOCERA DOME OSAKA",
         "url": "https://www.youtube.com/watch?v=gW8YzvIB7co",
+        "tag": [
+          "Performance"
+        ]
+      },
+      {
+        "title": "SixTONES –「こっから」from LIVE DVD/BD「YOUNG OLD」(2025.1.27 TOKYO DOME)",
+        "url": "https://www.youtube.com/watch?v=zc9wrhvkLNI",
+        "tag": [
+          "Performance"
+        ]
+      },
+      {
+        "title": "SixTONES –「Underline」from LIVE DVD/BD「YOUNG OLD」(2025.1.27 TOKYO DOME)",
+        "url": "https://www.youtube.com/watch?v=iI_RsSQ4dYo",
+        "tag": [
+          "Performance"
+        ]
+      },
+      {
+        "title": "SixTONES –「Fiesta」from LIVE DVD/BD「YOUNG OLD」(2025.1.27 TOKYO DOME)",
+        "url": "https://www.youtube.com/watch?v=Rvb1L4i8Ggw",
         "tag": [
           "Performance"
         ]
