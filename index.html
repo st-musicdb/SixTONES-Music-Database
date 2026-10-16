@@ -611,8 +611,9 @@
     { id: 'rearrange', label: 'Rearrange' },
     { id: 'other', label: 'Other' },
     { id: 'cover', label: 'Cover' },
-    { id: 'streaming', label: 'ストリーミング' },
-    { id: 'no-streaming', label: 'ストリーミング未配信' },
+    { id: 'streaming', label: '配信中' },
+    { id: 'streaming-only', label: '配信限定' },
+    { id: 'no-streaming', label: '未配信' },
     { id: 'all', label: 'All' }
   ];
 
@@ -634,11 +635,12 @@
     if (tabId === 'rearrange') return tag.indexOf('Rearrange') !== -1;
     if (tabId === 'other') return tag.indexOf('Other') !== -1;
     if (tabId === 'cover') return tag.indexOf('Cover') !== -1;
+    if (tabId === 'streaming-only') return tag.indexOf('配信限定') !== -1;
     if (tabId === 'streaming') {
-      return (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') !== -1;
+      return tag.indexOf('配信限定') === -1 && (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') !== -1;
     }
     if (tabId === 'no-streaming') {
-      return (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') === -1;
+      return tag.indexOf('配信限定') === -1 && (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') === -1;
     }
     return true; // all
   }
@@ -1218,6 +1220,22 @@
     return '<div class="detail-section"><p class="detail-label">' + label + '</p><div class="detail-value">' + valueHtml + '</div></div>';
   }
 
+  function relatedSongsHtml(song) {
+    const ids = song.linkIds || [];
+    const items = [];
+    ids.forEach(function (id) {
+      const t = songById[id];
+      if (t) items.push('<a href="' + songLink(t) + '">' + t.title + '</a>');
+    });
+    if (!items.length && song.link && song.link.length) {
+      song.link.forEach(function (title) {
+        const t = allSongs.find(function (x) { return x.title === title; });
+        items.push(t ? '<a href="' + songLink(t) + '">' + t.title + '</a>' : title);
+      });
+    }
+    return items.join('<br>');
+  }
+
   function renderSongDetail(key) {
     const song = songById[key] || allSongs.find(function (s) { return s.title === key; });
     const page = document.getElementById('page');
@@ -1260,6 +1278,7 @@
         detailRow('Solo / Unit', soloUnitLine(song)) +
         detailRow('Tag', entityLinks(song.tag, 'tag')) +
         detailRow('Live', entityLinks(song.live, 'live')) +
+        detailRow('関連楽曲', relatedSongsHtml(song)) +
         (ytList ? '<div class="detail-section"><p class="detail-label">YouTube (' + song.youtube.length + ')</p>' + ytList + '</div>' : '') +
         '<div class="entry-actions">' + favMylistButtons(song) + '</div>' +
       '</main>';
