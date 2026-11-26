@@ -546,17 +546,17 @@
     --bg: #141414;
     --surface: #1c1c1c;
     --surface-hover: #232323;
-    --text: #f5f5f5;
-    --text-muted: #b3b3b3;
-    --accent: #f5f5f5;
-    --slate: #b3b3b3;
+    --text: #ffffff;
+    --text-muted: #cacaca;
+    --accent: #ffffff;
+    --slate: #cacaca;
     --border: #2f2f2f;
 
     /* black surfaces: notice, tabs, buttons */
-    --ink: #262626;
-    --ink-hover: #333333;
-    --ink-text: #f5f5f5;
-    --ink-border: #484848;
+    --ink: #2a2a2a;
+    --ink-hover: #363636;
+    --ink-text: #ffffff;
+    --ink-border: #4a4a4a;
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme="dark"]) {
@@ -564,11 +564,15 @@
       --bg: #f5f5f5;
       --surface: #ffffff;
       --surface-hover: #ececec;
-      --text: #0d0d0d;
-      --text-muted: #4a4a4a;
-      --accent: #0d0d0d;
-      --slate: #4a4a4a;
+      --text: #000000;
+      --text-muted: #333333;
+      --accent: #000000;
+      --slate: #333333;
       --border: #d9d9d9;
+
+      --ink: #383838;
+      --ink-hover: #484848;
+      --ink-border: #505050;
     }
   }
 
@@ -622,14 +626,14 @@
   .nav-youtube a, .nav-credit a { border-color: var(--ink-border); }
   .nav-label-youtube, .nav-label-credit, .nav-label-index { color: var(--text-muted); }
 
-  /* notice: black box */
+  /* notice: quiet box (tinted surface, muted text, small) */
   header p.desc.notice-inline {
-    background: var(--ink); color: var(--ink-text); border: 1px solid var(--ink-border);
-    border-radius: 2px; padding: 12px 14px; font-size: 14px; line-height: 1.7;
+    background: var(--surface-hover); color: var(--text-muted); border: 1px solid var(--border);
+    border-radius: 2px; padding: 9px 12px; font-size: 12.5px; line-height: 1.7;
   }
   header p.desc.tieup { color: var(--text-muted); }
-  .notice-box { background: var(--ink); border: 1px solid var(--ink-border); border-radius: 2px; }
-  .notice-list { color: var(--ink-text); }
+  .notice-box { background: var(--surface-hover); border: 1px solid var(--border); border-radius: 2px; }
+  .notice-list { color: var(--text-muted); }
 
   /* remaining colour: video placeholders */
   .yt-grid-noimg { color: var(--text-muted); }
@@ -639,13 +643,22 @@
   h1 { font-size: clamp(24px, 4.6vw, 32px); }
   h1 { text-wrap: balance; line-break: strict; }
   header p.desc { font-size: 14px; }
-  header p.desc.notice-inline { font-size: 13px; }
   .kicker, .back-link, .sort-btn, .tab-btn, .member-tab-btn, .links a, .stream-links a,
   a.share, a.spotify, a.apple, a.youtube, .detail-label, .nav-label, .site-nav a, .footer-label { font-size: 12px; }
   .count { font-size: 12.5px; }
   .video-filter-row { font-size: 13px; }
   .detail-value { font-size: 15px; }
   #search { font-size: 16px; }
+
+  /* disc page: type label as a band (obi) */
+  .type-band {
+    display: block; font-family: var(--mono); font-size: 12px; letter-spacing: 0.03em;
+    background: var(--ink); color: var(--ink-text); border-radius: 2px;
+    padding: 6px 12px; margin: 0 0 2px;
+  }
+
+  /* songs without a disc type: no caption, but visibly apart from the band groups above */
+  .role-group-plain:not(:first-child) { margin-top: 32px; padding-top: 4px; border-top: 2px solid var(--border); }
 
   /* list feature (favourites / my lists): entry points hidden for now.
      Code and shared #/mylist links stay intact; delete this rule to bring it back. */
@@ -746,6 +759,7 @@
     { id: 'rearrange', label: 'Rearrange' },
     { id: 'other', label: 'Other' },
     { id: 'cover', label: 'Cover' },
+    { id: 'instrumental', label: 'Instrumental' },
     { id: 'streaming', label: '配信中' },
     { id: 'streaming-only', label: '配信限定' },
     { id: 'no-streaming', label: '未配信' },
@@ -763,9 +777,14 @@
     return tag.indexOf('Rearrange') === -1 && tag.indexOf('Other') === -1 && tag.indexOf('Cover') === -1;
   }
 
+  function isInstrumentalTag(tag) {
+    return tag.some(function (t) { return /instrumental/i.test(t); });
+  }
+
   function matchesTab(song, tabId) {
     const tag = song.tag || [];
-    if (tabId === 'original') return isOriginalTag(tag);
+    if (tabId === 'original') return isOriginalTag(tag) && !isInstrumentalTag(tag);
+    if (tabId === 'instrumental') return isInstrumentalTag(tag);
     if (tabId === 'unit-solo') return (song.solo && song.solo.length) || (song.unit && song.unit.length);
     if (tabId === 'rearrange') return tag.indexOf('Rearrange') !== -1;
     if (tabId === 'other') return tag.indexOf('Other') !== -1;
@@ -775,7 +794,8 @@
       return tag.indexOf('配信限定') === -1 && (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') !== -1;
     }
     if (tabId === 'no-streaming') {
-      return tag.indexOf('配信限定') === -1 && (isOriginalTag(tag) || tag.indexOf('Rearrange') !== -1) && tag.indexOf('ストリーミング') === -1;
+      // 全曲から（Other・Cover・Instrumentalも含む）
+      return tag.indexOf('配信限定') === -1 && tag.indexOf('ストリーミング') === -1;
     }
     return true; // all
   }
@@ -956,7 +976,10 @@
 
   function ytTagButtons(song) {
     if (!song.youtube || !song.youtube.length) return [];
+    const has = function (t) { return song.youtube.some(function (y) { return y.tag && y.tag.indexOf(t) !== -1; }); };
+    const hasMvOrPerf = has('Music Video') || has('Performance');
     return YT_LIST_TAGS.map(function (tag) {
+      if (tag === 'CD digeST' && hasMvOrPerf) return null;
       const match = song.youtube.find(function (y) { return y.tag && y.tag.indexOf(tag) !== -1; });
       return match ? '<a class="youtube" href="' + match.url + '" target="_blank" rel="noopener">' + tag + '</a>' : null;
     }).filter(Boolean);
@@ -1317,6 +1340,9 @@
 
     const metaBits = [];
     const discInfo = discByName[name];
+    const discLinks = [];
+    if (discInfo && discInfo.spotify) discLinks.push('<a class="spotify" href="' + discInfo.spotify + '" target="_blank" rel="noopener">Spotify</a>');
+    if (discInfo && discInfo.apple) discLinks.push('<a class="apple" href="' + discInfo.apple + '" target="_blank" rel="noopener">Apple Music</a>');
     if (discInfo) {
       if (discInfo.releaseDate) metaBits.push(discInfo.releaseDate);
       if (discInfo.category) metaBits.push(discInfo.category);
@@ -1325,7 +1351,7 @@
     page.innerHTML = '' +
       '<header>' +
         backLink() +
-        '<div class="title-row"><h1>' + name + '</h1><div class="stream-links">' + shareButton(name) + '</div></div>' +
+        '<div class="title-row"><h1>' + name + '</h1><div class="stream-links">' + discLinks.join('') + shareButton(name) + '</div></div>' +
         (metaBits.length ? '<p class="desc">' + metaBits.join(' ・ ') + '</p>' : '') +
         '<p class="desc">' + songs.length + '曲収録</p>' +
       '</header>' +
@@ -1339,12 +1365,13 @@
 
     const entryOpts = { hideDisc: true };
     let html = order.map(function (type) {
-      return '<div class="role-group"><p class="role-title">' + type + '</p>' +
+      const label = type.indexOf(name + ' - ') === 0 ? type.slice(name.length + 3) : type;
+      return '<div class="role-group"><p class="type-band" title="' + escAttr(type) + '">' + label + '</p>' +
         groups[type].map(function (s) { return renderListEntry(s, entryOpts); }).join('') + '</div>';
     }).join('');
 
     if (noType.length) {
-      html += '<div class="role-group"><p class="role-title">形態未設定</p>' +
+      html += '<div class="role-group role-group-plain">' +
         noType.map(function (s) { return renderListEntry(s, entryOpts); }).join('') + '</div>';
     }
 
