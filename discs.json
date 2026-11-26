@@ -1,602 +1,870 @@
 [
   {
+    "name": "YOUNG OLD - 初回盤",
+    "category": "BD/DVD",
+    "releaseDate": "2025-10-29",
+    "spotify": null,
+    "apple": null
+  },
+  {
+    "name": "Single Collection",
+    "category": "配信限定",
+    "releaseDate": "2026-01-14",
+    "spotify": "https://open.spotify.com/album/6sNdI5cR8tN2HJYYriaM1i?si=6x8QfSD7SP2VDfKWnNTl1A",
+    "apple": "https://music.apple.com/jp/album/single-collection/1863884085"
+  },
+  {
+    "name": "Single Collection -inSTrumentals-",
+    "category": "配信限定",
+    "releaseDate": "2026-01-07",
+    "spotify": "https://open.spotify.com/album/0BVNFg6pCshmNIhojpE0cU?si=1kp51vnrQ_GAfvRq_RdvCg",
+    "apple": "https://music.apple.com/jp/album/single-collection-instrumentals/1863618044"
+  },
+  {
+    "name": "LOVE SONG EP -マイオンリー-",
+    "category": "配信限定",
+    "releaseDate": "2026-10-23",
+    "spotify": "https://open.spotify.com/album/0tRUZu0nWrPC7KvOg3RV0j?si=jdALq4IYSsuGzTPcysxpKA",
+    "apple": "https://music.apple.com/jp/album/love-song-ep-%E3%83%9E%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%AA%E3%83%BC-ep/6822622268"
+  },
+  {
     "name": "スト夏の思い出2026",
     "category": "配信限定",
-    "releaseDate": "2026-08-19"
+    "releaseDate": "2026-08-19",
+    "spotify": "https://open.spotify.com/album/6oQ6cqaYbUAzOOv9Niwtca?si=3EVj4kkUQvWhsU_-EkyW6w",
+    "apple": "https://music.apple.com/jp/album/%E3%82%B9%E3%83%88%E5%A4%8F%E3%81%AE%E6%80%9D%E3%81%84%E5%87%BA2026-ep/6795933274"
   },
   {
     "name": "SixTONES LIVE TOUR 2026 \"MILESixTONES\"",
     "category": "配信限定",
-    "releaseDate": "2026-10-16"
+    "releaseDate": "2026-10-16",
+    "spotify": "https://open.spotify.com/album/6vXcdTjzBhxe0TD5dPx86s?si=jj-JAMaASnCHYvcqVCcxNg",
+    "apple": "https://music.apple.com/jp/album/sixtones-live-tour-2026-milesixtones/6819695629"
   },
   {
     "name": "Dance Forever/マイオンリー - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Dance Forever/マイオンリー - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Dance Forever/マイオンリー - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Dance Forever/マイオンリー - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Dance Forever/マイオンリー",
     "category": "Single",
-    "releaseDate": "2026-09-09"
+    "releaseDate": "2026-09-09",
+    "spotify": "https://open.spotify.com/album/1wk5WtjWUIapOoEax14c1B?si=YITaWx2IRym6HSz8dS_tiA",
+    "apple": "https://music.apple.com/jp/album/dance-forever-%E3%83%9E%E3%82%A4%E3%82%AA%E3%83%B3%E3%83%AA%E3%83%BC/6832915869"
   },
   {
     "name": "一秒/Rebellion - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "一秒/Rebellion - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "一秒/Rebellion - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "一秒/Rebellion - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "一秒/Rebellion",
     "category": "Single",
-    "releaseDate": "2026-03-18"
+    "releaseDate": "2026-03-18",
+    "spotify": "https://open.spotify.com/album/5Czy3RKliL2VQVAev2v0Bq?si=gXYPpW8FTYS5mScEfkKO5g",
+    "apple": "https://music.apple.com/jp/album/%E4%B8%80%E7%A7%92-rebellion/6832916771"
   },
   {
     "name": "MILESixTONES -Best Tracks- - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Stargaze - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "BOYZ - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "バリア - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GOLD - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GONG/ここに帰ってきて - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "音色 - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "THE VIBES - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CREAK - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "こっから - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "ABARERO - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "声 - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Good Luck!/ふたり - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "わたし - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "共鳴 - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CITY - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "マスカラ - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "僕が僕じゃないみたいだ - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "1ST - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NEW ERA - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NAVIGATOR - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Imitation Rain - 形態共通",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "MILESixTONES -Best Tracks- - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "MILESixTONES -Best Tracks- - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "MILESixTONES -Best Tracks- - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "MILESixTONES -Best Tracks-",
     "category": "Best Album",
-    "releaseDate": "2026-01-21"
+    "releaseDate": "2026-01-21",
+    "spotify": "https://open.spotify.com/album/7yNkgiSJ4zLq0JBejxTibc?si=NRGtBQ98S4iakpSeo_7aYA",
+    "apple": "https://music.apple.com/jp/album/milesixtones-best-tracks/6832921092"
   },
   {
     "name": "Stargaze - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Stargaze - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Stargaze - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Stargaze",
     "category": "Single",
-    "releaseDate": "2025-09-10"
+    "releaseDate": "2025-09-10",
+    "spotify": "https://open.spotify.com/album/3Ps0KKyLnZhhl9TApy7Ndy?si=zaeaaoPuS7yzj_w6rRRp0w",
+    "apple": "https://music.apple.com/jp/album/stargaze-ep/6832917072"
   },
   {
     "name": "BOYZ - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "BOYZ - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "BOYZ - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "BOYZ",
     "category": "Single",
-    "releaseDate": "2025-06-04"
+    "releaseDate": "2025-06-04",
+    "spotify": "https://open.spotify.com/album/37UbCBIY0El8ejkDwNDjmB?si=2yB27kZdSuq9_SyMLeTF4Q",
+    "apple": "https://music.apple.com/jp/album/boyz/6832916441"
   },
   {
     "name": "バリア - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "バリア - MTV Unplugged盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "バリア - 初回盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GOLD - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GOLD - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GOLD - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GONG/ここに帰ってきて - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GONG/ここに帰ってきて - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "GONG/ここに帰ってきて - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "音色 - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "音色 - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "音色 - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "THE VIBES - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "THE VIBES - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "THE VIBES - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CREAK - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CREAK - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CREAK - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "こっから - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "こっから - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "こっから - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "ABARERO - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "ABARERO - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "ABARERO - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "声 - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "声 - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "声 - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Good Luck!/ふたり - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Good Luck!/ふたり - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Good Luck!/ふたり - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "わたし - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "わたし - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "わたし - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "共鳴 - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "共鳴 - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "共鳴 - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CITY - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CITY - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "CITY - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "マスカラ - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "マスカラ - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "マスカラ - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "僕が僕じゃないみたいだ - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "僕が僕じゃないみたいだ - 初回盤B",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "僕が僕じゃないみたいだ - 初回盤A",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "1ST - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "1ST - 初回B：音色盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "1ST - 初回A：原石盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NEW ERA - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NEW ERA - 期間限定盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NEW ERA - 初回盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NAVIGATOR - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NAVIGATOR - 期間限定盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "NAVIGATOR - 初回盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "Imitation Rain - 通常盤",
     "category": null,
-    "releaseDate": null
+    "releaseDate": null,
+    "spotify": null,
+    "apple": null
   },
   {
     "name": "バリア",
     "category": "Single",
-    "releaseDate": "2025-03-19"
+    "releaseDate": "2025-03-19",
+    "spotify": "https://open.spotify.com/album/52eOvQc5YPsJwUW3P8Tjf3?si=15NmzWlFRh6mtoGALstk4w",
+    "apple": "https://music.apple.com/jp/album/%E3%83%90%E3%83%AA%E3%82%A2/6832926415"
   },
   {
     "name": "GOLD",
     "category": "Album",
-    "releaseDate": "2025-01-15"
+    "releaseDate": "2025-01-15",
+    "spotify": "https://open.spotify.com/album/4vBg9dEsywLnV9FZDROgqK?si=Hsl_MKK3RumoS24bz5DjDA",
+    "apple": "https://music.apple.com/jp/album/gold/6832920453"
   },
   {
     "name": "GONG/ここに帰ってきて",
     "category": "Single",
-    "releaseDate": "2024-07-10"
+    "releaseDate": "2024-07-10",
+    "spotify": "https://open.spotify.com/album/0Wmh4PAlFlBArVSb4VDUaf?si=TwtjLNAXTuu-HfkO-Bviqg",
+    "apple": "https://music.apple.com/jp/album/gong-%E3%81%93%E3%81%93%E3%81%AB%E5%B8%B0%E3%81%A3%E3%81%A6%E3%81%8D%E3%81%A6/6832917450"
   },
   {
     "name": "音色",
     "category": "Single",
-    "releaseDate": "2024-05-01"
+    "releaseDate": "2024-05-01",
+    "spotify": "https://open.spotify.com/album/1kzlia6jDJRyLhXV80HPcu?si=I53QzLjlTE6xp1rtbqazzw",
+    "apple": "https://music.apple.com/jp/album/%E9%9F%B3%E8%89%B2/6832916822"
   },
   {
     "name": "THE VIBES",
     "category": "Album",
-    "releaseDate": "2024-01-10"
+    "releaseDate": "2024-01-10",
+    "spotify": "https://open.spotify.com/album/25Hk665fPABOLIvB2PbJGo?si=oluDH-fwQ0WIABTJrA1zUQ",
+    "apple": "https://music.apple.com/jp/album/the-vibes/6832920650"
   },
   {
     "name": "CREAK",
     "category": "Single",
-    "releaseDate": "2023-08-30"
+    "releaseDate": "2023-08-30",
+    "spotify": "https://open.spotify.com/album/4uZ8Tvr7bYOpdgv9g0HEps?si=rH5bQPczQ9CizDMo2RBchw",
+    "apple": "https://music.apple.com/jp/album/creak/6832916041"
   },
   {
     "name": "こっから",
     "category": "Single",
-    "releaseDate": "2023-06-14"
+    "releaseDate": "2023-06-14",
+    "spotify": "https://open.spotify.com/album/2lTxjsUMfNeCIh8JILfcsR?si=Ac7YLwYaSLqz4c77rQk-tA",
+    "apple": "https://music.apple.com/jp/album/%E3%81%93%E3%81%A3%E3%81%8B%E3%82%89-ep/6832915123"
   },
   {
     "name": "ABARERO",
     "category": "Single",
-    "releaseDate": "2023-04-12"
+    "releaseDate": "2023-04-12",
+    "spotify": "https://open.spotify.com/album/5G9gmVlQeQ8CaJWnG33Luz?si=ENkze2pJQ3KwfAIrM-fxzg",
+    "apple": "https://music.apple.com/jp/album/abarero/6832917887"
   },
   {
     "name": "声",
     "category": "Album",
-    "releaseDate": "2023-01-04"
+    "releaseDate": "2023-01-04",
+    "spotify": "https://open.spotify.com/album/3z3a0aM2jNz4g0TfqpyF8j?si=OQ914AUaSZmYgJcjonftMA",
+    "apple": "https://music.apple.com/jp/album/%E5%A3%B0/6832926293"
   },
   {
     "name": "Good Luck!/ふたり",
     "category": "Single",
-    "releaseDate": "2022-11-02"
+    "releaseDate": "2022-11-02",
+    "spotify": "https://open.spotify.com/album/3y8KozRCQ5ZghYaooHV4xR?si=B2ywQ_9UTNWMJRvZY5XMHg",
+    "apple": "https://music.apple.com/jp/album/good-luck-%E3%81%B5%E3%81%9F%E3%82%8A-ep/6832918140"
   },
   {
     "name": "わたし",
     "category": "Single",
-    "releaseDate": "2022-06-08"
+    "releaseDate": "2022-06-08",
+    "spotify": "https://open.spotify.com/album/4lNaTFFaeJE9ay9BXKNgtj?si=og0_JGpJQui9oCI0w3l7Ug",
+    "apple": "https://music.apple.com/jp/album/%E3%82%8F%E3%81%9F%E3%81%97/6832916119"
   },
   {
     "name": "共鳴",
     "category": "Single",
-    "releaseDate": "2022-03-02"
+    "releaseDate": "2022-03-02",
+    "spotify": "https://open.spotify.com/album/52hMEuFASjKqB6E1Kxjm4T?si=2u6zuyaWQVaMSo2TIkczRw",
+    "apple": "https://music.apple.com/jp/album/%E5%85%B1%E9%B3%B4-ep/6832917083"
   },
   {
     "name": "CITY",
     "category": "Album",
-    "releaseDate": "2022-01-05"
+    "releaseDate": "2022-01-05",
+    "spotify": "https://open.spotify.com/album/3M4YUdZnC78wKdF0kl9IbC?si=16r9STjmSpS2wQ-yefOWnQ",
+    "apple": "https://music.apple.com/jp/album/city/6832918206"
   },
   {
     "name": "マスカラ",
     "category": "Single",
-    "releaseDate": "2021-08-11"
+    "releaseDate": "2021-08-11",
+    "spotify": "https://open.spotify.com/album/6AvHjLl4M2VMV91GDa5I0i?si=F13IPOenRKqjCklGge2O2g",
+    "apple": "https://music.apple.com/jp/album/%E3%83%9E%E3%82%B9%E3%82%AB%E3%83%A9/6832916743"
   },
   {
     "name": "僕が僕じゃないみたいだ",
     "category": "Single",
-    "releaseDate": "2021-02-17"
+    "releaseDate": "2021-02-17",
+    "spotify": "https://open.spotify.com/album/2QYPgDrgqpYextqZXSddu3?si=obiGnm2LQ0eK8BJBKyvozg",
+    "apple": "https://music.apple.com/jp/album/%E5%83%95%E3%81%8C%E5%83%95%E3%81%98%E3%82%83%E3%81%AA%E3%81%84%E3%81%BF%E3%81%9F%E3%81%84%E3%81%A0-ep/6832916571"
   },
   {
     "name": "1ST",
     "category": "Album",
-    "releaseDate": "2021-01-06"
+    "releaseDate": "2021-01-06",
+    "spotify": "https://open.spotify.com/album/7qopyVb3gqeAsMdJ8rzxBl?si=nCJe_Gr-SCqNnp85t_0WXg",
+    "apple": "https://music.apple.com/jp/album/1st/6832919375"
   },
   {
     "name": "NEW ERA",
     "category": "Single",
-    "releaseDate": "2020-11-11"
+    "releaseDate": "2020-11-11",
+    "spotify": "https://open.spotify.com/album/4OVdo75gBcRWVYcwDDx1o2?si=Ln4Gr_6vS66Ajy50BXhclw",
+    "apple": "https://music.apple.com/jp/album/new-era/6832916458"
   },
   {
     "name": "NAVIGATOR",
     "category": "Single",
-    "releaseDate": "2020-07-22"
+    "releaseDate": "2020-07-22",
+    "spotify": "https://open.spotify.com/album/01ECAITE2MD5bp5b5mtcYL?si=wJHG-c7XTVCGdJGhp_zhkQ",
+    "apple": "https://music.apple.com/jp/album/navigator/6832916809"
   },
   {
     "name": "Imitation Rain",
     "category": "Single",
-    "releaseDate": "2020-01-22"
+    "releaseDate": "2020-01-22",
+    "spotify": "https://open.spotify.com/album/5o9qcnH3PcaeFmQwAGzekU?si=HrK0AqcUQZi01v3yfUTMMw",
+    "apple": "https://music.apple.com/jp/album/imitation-rain-ep/6832914912"
   }
 ]
